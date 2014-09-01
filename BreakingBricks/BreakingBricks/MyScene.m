@@ -145,14 +145,23 @@ static const uint32_t edgeCategory      = 0x1 << 3;
 #pragma mark - Physics Contact Delegate Methods
 
 - (void)didBeginContact:(SKPhysicsContact *)contact {
-    if (contact.bodyA.categoryBitMask == brickCategory) {
-        NSLog(@"Body A is a brick");
-    }
-    if (contact.bodyA.categoryBitMask == paddleCategory) {
-        NSLog(@"Body A is a paddle");
+    // create a placeholder reference for the non-ball object
+    SKPhysicsBody *notTheBall;
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask) {
+        notTheBall = contact.bodyB;
+    } else {
+        notTheBall = contact.bodyA;
     }
     
+    if (notTheBall.categoryBitMask == brickCategory) {
+        [notTheBall.node removeFromParent];
+    }
     
+    if (notTheBall.categoryBitMask == paddleCategory) {
+        SKAction *paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
+        [self runAction:paddleSound];
+    }
 }
 
 @end

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E21B0C919B5325D00ED0EC0 /* blip.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C619B5325D00ED0EC0 /* blip.caf */; };
+		3E21B0CA19B5325D00ED0EC0 /* brickhit.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C719B5325D00ED0EC0 /* brickhit.caf */; };
+		3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C819B5325D00ED0EC0 /* gameover.caf */; };
 		3E7E298819B3BAC900C3DCBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298719B3BAC900C3DCBE /* Foundation.framework */; };
 		3E7E298A19B3BAC900C3DCBE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */; };
 		3E7E298C19B3BAC900C3DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298B19B3BAC900C3DCBE /* UIKit.framework */; };
@@ -42,6 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E21B0C619B5325D00ED0EC0 /* blip.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = blip.caf; sourceTree = "<group>"; };
+		3E21B0C719B5325D00ED0EC0 /* brickhit.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = brickhit.caf; sourceTree = "<group>"; };
+		3E21B0C819B5325D00ED0EC0 /* gameover.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.caf; sourceTree = "<group>"; };
 		3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakingBricks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7E298719B3BAC900C3DCBE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,12 +70,12 @@
 		3E7E29B519B3BAC900C3DCBE /* BreakingBricksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BreakingBricksTests-Info.plist"; sourceTree = "<group>"; };
 		3E7E29B719B3BAC900C3DCBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3E7E29B919B3BAC900C3DCBE /* BreakingBricksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BreakingBricksTests.m; sourceTree = "<group>"; };
-		3E7E29C319B3BDBA00C3DCBE /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
-		3E7E29C419B3BDBA00C3DCBE /* ball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball@2x.png"; sourceTree = "<group>"; };
-		3E7E29C519B3BDBA00C3DCBE /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick.png; sourceTree = "<group>"; };
-		3E7E29C619B3BDBA00C3DCBE /* brick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick@2x.png"; sourceTree = "<group>"; };
-		3E7E29C719B3BDBA00C3DCBE /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
-		3E7E29C819B3BDBA00C3DCBE /* paddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paddle@2x.png"; sourceTree = "<group>"; };
+		3E7E29C319B3BDBA00C3DCBE /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ball.png; path = ../ball.png; sourceTree = "<group>"; };
+		3E7E29C419B3BDBA00C3DCBE /* ball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ball@2x.png"; path = "../ball@2x.png"; sourceTree = "<group>"; };
+		3E7E29C519B3BDBA00C3DCBE /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brick.png; path = ../brick.png; sourceTree = "<group>"; };
+		3E7E29C619B3BDBA00C3DCBE /* brick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "brick@2x.png"; path = "../brick@2x.png"; sourceTree = "<group>"; };
+		3E7E29C719B3BDBA00C3DCBE /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paddle.png; path = ../paddle.png; sourceTree = "<group>"; };
+		3E7E29C819B3BDBA00C3DCBE /* paddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "paddle@2x.png"; path = "../paddle@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +103,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3E7E297B19B3BAC900C3DCBE = {
+		3E21B0C419B5320C00ED0EC0 /* images */ = {
 			isa = PBXGroup;
 			children = (
 				3E7E29C319B3BDBA00C3DCBE /* ball.png */,
@@ -106,6 +112,23 @@
 				3E7E29C619B3BDBA00C3DCBE /* brick@2x.png */,
 				3E7E29C719B3BDBA00C3DCBE /* paddle.png */,
 				3E7E29C819B3BDBA00C3DCBE /* paddle@2x.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		3E21B0C519B5322000ED0EC0 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				3E21B0C619B5325D00ED0EC0 /* blip.caf */,
+				3E21B0C719B5325D00ED0EC0 /* brickhit.caf */,
+				3E21B0C819B5325D00ED0EC0 /* gameover.caf */,
+			);
+			name = sounds;
+			sourceTree = "<group>";
+		};
+		3E7E297B19B3BAC900C3DCBE = {
+			isa = PBXGroup;
+			children = (
 				3E7E298F19B3BAC900C3DCBE /* BreakingBricks */,
 				3E7E29B319B3BAC900C3DCBE /* BreakingBricksTests */,
 				3E7E298619B3BAC900C3DCBE /* Frameworks */,
@@ -145,6 +168,8 @@
 				3E7E29A119B3BAC900C3DCBE /* MyScene.h */,
 				3E7E29A219B3BAC900C3DCBE /* MyScene.m */,
 				3E7E29A619B3BAC900C3DCBE /* Images.xcassets */,
+				3E21B0C419B5320C00ED0EC0 /* images */,
+				3E21B0C519B5322000ED0EC0 /* sounds */,
 				3E7E299019B3BAC900C3DCBE /* Supporting Files */,
 			);
 			path = BreakingBricks;
@@ -261,12 +286,15 @@
 				3E7E299419B3BAC900C3DCBE /* InfoPlist.strings in Resources */,
 				3E7E29CA19B3BDBA00C3DCBE /* ball@2x.png in Resources */,
 				3E7E29CB19B3BDBA00C3DCBE /* brick.png in Resources */,
+				3E21B0C919B5325D00ED0EC0 /* blip.caf in Resources */,
 				3E7E29C919B3BDBA00C3DCBE /* ball.png in Resources */,
 				3E7E29CD19B3BDBA00C3DCBE /* paddle.png in Resources */,
+				3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */,
 				3E7E29CC19B3BDBA00C3DCBE /* brick@2x.png in Resources */,
 				3E7E29CE19B3BDBA00C3DCBE /* paddle@2x.png in Resources */,
 				3E7E29A719B3BAC900C3DCBE /* Images.xcassets in Resources */,
 				3E7E299D19B3BAC900C3DCBE /* Main.storyboard in Resources */,
+				3E21B0CA19B5325D00ED0EC0 /* brickhit.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +529,7 @@
 				3E7E29BF19B3BAC900C3DCBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3E7E29C019B3BAC900C3DCBE /* Build configuration list for PBXNativeTarget "BreakingBricksTests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +538,7 @@
 				3E7E29C219B3BAC900C3DCBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
