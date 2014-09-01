@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1F3FACF5-8A59-4C75-A97B-3325FA5FBF6D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BreakingBricks</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>296DB921-1B8C-415E-85DA-B4C446F221B5</key>
+		<string>https://github.com/ddApps-co/BreakingBricks.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BreakingBricks/BreakingBricks.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>296DB921-1B8C-415E-85DA-B4C446F221B5</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ddApps-co/BreakingBricks.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>296DB921-1B8C-415E-85DA-B4C446F221B5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>296DB921-1B8C-415E-85DA-B4C446F221B5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BreakingBricks</string>
+		</dict>
+	</array>
+</dict>
+</plist>
