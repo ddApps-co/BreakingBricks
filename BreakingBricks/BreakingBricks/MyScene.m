@@ -10,6 +10,8 @@
 
 @interface MyScene()
 @property (nonatomic) SKSpriteNode *paddle;
+@property (nonatomic) SKAction *paddleSound;
+@property (nonatomic) SKAction *brickSound;
 @end
 
 
@@ -133,10 +135,14 @@ static const uint32_t edgeCategory      = 0x1 << 3;
         self.physicsWorld.gravity = CGVectorMake(0, 0);
         self.physicsWorld.contactDelegate = self;
         
+        // add the objects to the scene
         [self addBall:size];
         [self addPlayer:size];
         [self addBricks:size];
         
+        // preload sound effects
+        self.paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
+        self.brickSound = [SKAction playSoundFileNamed:@"brickhit.caf" waitForCompletion:NO];
     }
     return self;
 }
@@ -156,11 +162,11 @@ static const uint32_t edgeCategory      = 0x1 << 3;
     
     if (notTheBall.categoryBitMask == brickCategory) {
         [notTheBall.node removeFromParent];
+        [self runAction:self.brickSound];
     }
     
     if (notTheBall.categoryBitMask == paddleCategory) {
-        SKAction *paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
-        [self runAction:paddleSound];
+        [self runAction:self.paddleSound];
     }
 }
 
