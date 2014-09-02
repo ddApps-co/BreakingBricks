@@ -10,6 +10,7 @@
 		3E21B0C919B5325D00ED0EC0 /* blip.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C619B5325D00ED0EC0 /* blip.caf */; };
 		3E21B0CA19B5325D00ED0EC0 /* brickhit.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C719B5325D00ED0EC0 /* brickhit.caf */; };
 		3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C819B5325D00ED0EC0 /* gameover.caf */; };
+		3E21B0CE19B5413D00ED0EC0 /* EndScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E21B0CD19B5413D00ED0EC0 /* EndScene.m */; };
 		3E7E298819B3BAC900C3DCBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298719B3BAC900C3DCBE /* Foundation.framework */; };
 		3E7E298A19B3BAC900C3DCBE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */; };
 		3E7E298C19B3BAC900C3DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298B19B3BAC900C3DCBE /* UIKit.framework */; };
@@ -48,6 +49,8 @@
 		3E21B0C619B5325D00ED0EC0 /* blip.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = blip.caf; sourceTree = "<group>"; };
 		3E21B0C719B5325D00ED0EC0 /* brickhit.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = brickhit.caf; sourceTree = "<group>"; };
 		3E21B0C819B5325D00ED0EC0 /* gameover.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.caf; sourceTree = "<group>"; };
+		3E21B0CC19B5413D00ED0EC0 /* EndScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndScene.h; sourceTree = "<group>"; };
+		3E21B0CD19B5413D00ED0EC0 /* EndScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndScene.m; sourceTree = "<group>"; };
 		3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakingBricks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7E298719B3BAC900C3DCBE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -167,6 +170,8 @@
 				3E7E299F19B3BAC900C3DCBE /* ViewController.m */,
 				3E7E29A119B3BAC900C3DCBE /* MyScene.h */,
 				3E7E29A219B3BAC900C3DCBE /* MyScene.m */,
+				3E21B0CC19B5413D00ED0EC0 /* EndScene.h */,
+				3E21B0CD19B5413D00ED0EC0 /* EndScene.m */,
 				3E7E29A619B3BAC900C3DCBE /* Images.xcassets */,
 				3E21B0C419B5320C00ED0EC0 /* images */,
 				3E21B0C519B5322000ED0EC0 /* sounds */,
@@ -317,6 +322,7 @@
 				3E7E29A019B3BAC900C3DCBE /* ViewController.m in Sources */,
 				3E7E299A19B3BAC900C3DCBE /* AppDelegate.m in Sources */,
 				3E7E299619B3BAC900C3DCBE /* main.m in Sources */,
+				3E21B0CE19B5413D00ED0EC0 /* EndScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

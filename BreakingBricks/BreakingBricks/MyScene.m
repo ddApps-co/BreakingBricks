@@ -7,6 +7,7 @@
 //
 
 #import "MyScene.h"
+#import "EndScene.h"
 
 @interface MyScene()
 @property (nonatomic) SKSpriteNode *paddle;
@@ -16,10 +17,11 @@
 
 
 #pragma mark - Categories
-static const uint32_t ballCategory      = 0x1;
-static const uint32_t brickCategory     = 0x1 << 1;
-static const uint32_t paddleCategory    = 0x1 << 2;
-static const uint32_t edgeCategory      = 0x1 << 3;
+static const uint32_t ballCategory       = 0x1;
+static const uint32_t brickCategory      = 0x1 << 1;
+static const uint32_t paddleCategory     = 0x1 << 2;
+static const uint32_t edgeCategory       = 0x1 << 3;
+static const uint32_t bottomEdgeCategory = 0x1 << 4;
 
 
 @implementation MyScene
@@ -44,7 +46,7 @@ static const uint32_t edgeCategory      = 0x1 << 3;
     ball.physicsBody.categoryBitMask = ballCategory;
     
     // add the contact category notification with bricks and paddle
-    ball.physicsBody.contactTestBitMask = brickCategory | paddleCategory;
+    ball.physicsBody.contactTestBitMask = brickCategory | paddleCategory | bottomEdgeCategory;
     
     // add the collision bitmask of the edge and the brick - ball passes right thru paddle
     // ball.physicsBody.collisionBitMask = edgeCategory | brickCategory;
@@ -120,6 +122,17 @@ static const uint32_t edgeCategory      = 0x1 << 3;
 }
 
 
+#pragma mark - Add Bottom Edge
+
+- (void)addBottomEdge:(CGSize)size {
+    SKNode *bottomEdge = [SKNode node];
+    bottomEdge.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1)
+                                                          toPoint:CGPointMake(size.width, 1)];
+    bottomEdge.physicsBody.categoryBitMask = bottomEdgeCategory;
+    [self addChild:bottomEdge];
+}
+
+
 #pragma mark - Initialize the Scene
 
 -(id)initWithSize:(CGSize)size {    
@@ -139,6 +152,7 @@ static const uint32_t edgeCategory      = 0x1 << 3;
         [self addBall:size];
         [self addPlayer:size];
         [self addBricks:size];
+        [self addBottomEdge:size];
         
         // preload sound effects
         self.paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
@@ -167,6 +181,12 @@ static const uint32_t edgeCategory      = 0x1 << 3;
     
     if (notTheBall.categoryBitMask == paddleCategory) {
         [self runAction:self.paddleSound];
+    }
+    
+    if (notTheBall.categoryBitMask == bottomEdgeCategory) {
+        // Game Over
+        EndScene *gameOver = [EndScene sceneWithSize:self.size];
+        [self.view presentScene:gameOver];
     }
 }
 
