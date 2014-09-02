@@ -186,7 +186,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     if (notTheBall.categoryBitMask == bottomEdgeCategory) {
         // Game Over
         EndScene *gameOver = [EndScene sceneWithSize:self.size];
-        [self.view presentScene:gameOver];
+        [self.view presentScene:gameOver transition:[SKTransition doorsCloseHorizontalWithDuration:1.0]];
     }
 }
 
