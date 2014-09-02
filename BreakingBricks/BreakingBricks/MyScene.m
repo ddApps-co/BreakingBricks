@@ -13,6 +13,8 @@
 @property (nonatomic) SKSpriteNode *paddle;
 @property (nonatomic) SKAction *paddleSound;
 @property (nonatomic) SKAction *brickSound;
+@property (nonatomic) NSInteger level;
+@property (nonatomic) NSInteger bricks;
 @end
 
 
@@ -138,7 +140,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-        self.backgroundColor = [SKColor whiteColor];
+        self.backgroundColor = [SKColor blackColor];
         
         // add a physics body to the scene
         self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
@@ -157,6 +159,10 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         // preload sound effects
         self.paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
         self.brickSound = [SKAction playSoundFileNamed:@"brickhit.caf" waitForCompletion:NO];
+        
+        // initialize level and bricks
+        self.level = 1;
+        self.bricks = 4;
     }
     return self;
 }
@@ -175,7 +181,19 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     }
     
     if (notTheBall.categoryBitMask == brickCategory) {
+        NSString *explosionPath = [[NSBundle mainBundle] pathForResource:@"BrickExplosion" ofType:@"sks"];
+        SKEmitterNode *brickExplosion = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath ];
+        brickExplosion.position = notTheBall.node.position;
+        [self addChild:brickExplosion];
+        [brickExplosion runAction:[SKAction waitForDuration:2.0] completion:^{
+            [brickExplosion removeFromParent];
+        }];
+        
         [notTheBall.node removeFromParent];
+        
+        // remove a brick
+        self.bricks--;
+        
         [self runAction:self.brickSound];
     }
     
@@ -187,6 +205,19 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         // Game Over
         EndScene *gameOver = [EndScene sceneWithSize:self.size];
         [self.view presentScene:gameOver transition:[SKTransition doorsCloseHorizontalWithDuration:1.0]];
+    }
+}
+
+
+#pragma mark - Update Loop Actions
+
+- (void)update:(NSTimeInterval)currentTime {
+    // check to see if we have no more bricks
+    if (self.bricks == 0) {
+        NSLog(@"Level Complete: %d", self.level);
+        self.bricks = 4;
+        self.level++;
+        [self addBricks:self.size];
     }
 }
 

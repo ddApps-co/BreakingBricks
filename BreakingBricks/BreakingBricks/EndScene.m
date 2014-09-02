@@ -13,7 +13,7 @@
 
 - (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        self.backgroundColor = [SKColor blackColor];
+        self.backgroundColor = [SKColor whiteColor];
         
         SKAction *gameOverSound = [SKAction playSoundFileNamed:@"gameover.caf" waitForCompletion:NO];
         [self runAction:gameOverSound];
@@ -21,7 +21,7 @@
         // Game Over Message
         SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
         label.text = @"Game Over";
-        label.fontColor = [SKColor whiteColor];
+        label.fontColor = [SKColor blackColor];
         label.fontSize = 50;
         label.position = CGPointMake(CGRectGetMidX(self.frame),
                                      CGRectGetMidY(self.frame));
@@ -30,7 +30,7 @@
         // add a second label
         SKLabelNode *tryAgain = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
         tryAgain.text = @"Tap to Play Again";
-        tryAgain.fontColor = [SKColor whiteColor];
+        tryAgain.fontColor = [SKColor blackColor];
         tryAgain.fontSize = 24;
         tryAgain.position = CGPointMake(size.width/2, -50);
         

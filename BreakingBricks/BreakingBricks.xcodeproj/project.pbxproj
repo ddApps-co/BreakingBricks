@@ -12,6 +12,8 @@
 		3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0C819B5325D00ED0EC0 /* gameover.caf */; };
 		3E21B0CE19B5413D00ED0EC0 /* EndScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E21B0CD19B5413D00ED0EC0 /* EndScene.m */; };
 		3E21B0D019B620E000ED0EC0 /* bricks.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0CF19B620E000ED0EC0 /* bricks.atlas */; };
+		3E21B0D319B62AF300ED0EC0 /* BrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0D119B62AF300ED0EC0 /* BrickExplosion.sks */; };
+		3E21B0D419B62AF300ED0EC0 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0D219B62AF300ED0EC0 /* spark.png */; };
 		3E7E298819B3BAC900C3DCBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298719B3BAC900C3DCBE /* Foundation.framework */; };
 		3E7E298A19B3BAC900C3DCBE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */; };
 		3E7E298C19B3BAC900C3DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298B19B3BAC900C3DCBE /* UIKit.framework */; };
@@ -47,6 +49,8 @@
 		3E21B0CC19B5413D00ED0EC0 /* EndScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndScene.h; sourceTree = "<group>"; };
 		3E21B0CD19B5413D00ED0EC0 /* EndScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndScene.m; sourceTree = "<group>"; };
 		3E21B0CF19B620E000ED0EC0 /* bricks.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = bricks.atlas; sourceTree = "<group>"; };
+		3E21B0D119B62AF300ED0EC0 /* BrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BrickExplosion.sks; sourceTree = "<group>"; };
+		3E21B0D219B62AF300ED0EC0 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakingBricks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7E298719B3BAC900C3DCBE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -149,6 +153,8 @@
 				3E7E29A219B3BAC900C3DCBE /* MyScene.m */,
 				3E21B0CC19B5413D00ED0EC0 /* EndScene.h */,
 				3E21B0CD19B5413D00ED0EC0 /* EndScene.m */,
+				3E21B0D119B62AF300ED0EC0 /* BrickExplosion.sks */,
+				3E21B0D219B62AF300ED0EC0 /* spark.png */,
 				3E7E29A619B3BAC900C3DCBE /* Images.xcassets */,
 				3E21B0CF19B620E000ED0EC0 /* bricks.atlas */,
 				3E21B0C519B5322000ED0EC0 /* sounds */,
@@ -266,10 +272,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E7E299419B3BAC900C3DCBE /* InfoPlist.strings in Resources */,
+				3E21B0D419B62AF300ED0EC0 /* spark.png in Resources */,
 				3E21B0C919B5325D00ED0EC0 /* blip.caf in Resources */,
 				3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */,
 				3E7E29A719B3BAC900C3DCBE /* Images.xcassets in Resources */,
 				3E7E299D19B3BAC900C3DCBE /* Main.storyboard in Resources */,
+				3E21B0D319B62AF300ED0EC0 /* BrickExplosion.sks in Resources */,
 				3E21B0D019B620E000ED0EC0 /* bricks.atlas in Resources */,
 				3E21B0CA19B5325D00ED0EC0 /* brickhit.caf in Resources */,
 			);
