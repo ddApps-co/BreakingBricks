@@ -8,6 +8,12 @@
 
 #import "MyScene.h"
 #import "EndScene.h"
+#import "HUDNode.h"
+
+static const int BrickPoint = 1;
+static const int BrickTier1 = 4; // Number of Bricks in Level
+static const int BrickTier2 = 8; // Number of Bricks in Level
+
 
 @interface MyScene()
 @property (nonatomic) SKSpriteNode *paddle;
@@ -28,7 +34,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
 
 @implementation MyScene
 
-#pragma mark - Add the Ball
+#pragma mark - Add the Ball, Add Impulse to the Ball
 
 - (void)addBall:(CGSize)size {
     // create a new sprite node from an image
@@ -37,6 +43,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     // create a CGPoint for position
     CGPoint point = CGPointMake(size.width/2, size.height/2);
     ball.position = point;
+    ball.name = @"ball";
     
     // add a physics body
     ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
@@ -56,12 +63,17 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     // add the sprite node to the scene
     [self addChild:ball];
     
+    [self addImpulse];
+}
+
+
+- (void)addImpulse {
     // create a vector
     CGVector vector = CGVectorMake(10, 10);
     //apply the vector
+    SKSpriteNode *ball = (SKSpriteNode*)[self childNodeWithName:@"ball"];
     [ball.physicsBody applyImpulse:vector];
 }
-
 
 #pragma mark - Add the Player
 
@@ -104,7 +116,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
 
 #pragma mark - Add Bricks
 
-- (void)addBricks:(CGSize)size {
+- (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
     for (int i = 0; i < 4; i++) {
         SKSpriteNode *brick = [SKSpriteNode spriteNodeWithImageNamed:@"brick"];
         
@@ -120,6 +132,26 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         brick.position = CGPointMake(xPosition, yPosition);
         
         [self addChild:brick];
+    }
+    
+    // if brickTier == 2 draw a second row
+    if (brickTier == BrickTier2) {
+        for (int i = 0; i < 4; i++) {
+            SKSpriteNode *brick = [SKSpriteNode spriteNodeWithImageNamed:@"brick"];
+            
+            // add a static physics body
+            brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
+            brick.physicsBody.dynamic = NO;
+            
+            // add category
+            brick.physicsBody.categoryBitMask = brickCategory;
+            
+            int xPosition = size.width/5 * (i+1);
+            int yPosition = size.height - 100;
+            brick.position = CGPointMake(xPosition, yPosition);
+            
+            [self addChild:brick];
+        }
     }
 }
 
@@ -153,16 +185,21 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         // add the objects to the scene
         [self addBall:size];
         [self addPlayer:size];
-        [self addBricks:size];
+        [self addBricks:size atLevel:BrickTier1];
         [self addBottomEdge:size];
         
         // preload sound effects
         self.paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
         self.brickSound = [SKAction playSoundFileNamed:@"brickhit.caf" waitForCompletion:NO];
         
-        // initialize level and bricks
+        // initialize level and bricks: Level 1 = 4 Bricks
         self.level = 1;
         self.bricks = 4;
+        
+        HUDNode *hud = [HUDNode hudAtPosition:CGPointMake(0, self.frame.size.height-20)
+                                      inFrame:self.frame];
+        [self addChild:hud];
+        [hud loadHighScore];
     }
     return self;
 }
@@ -191,9 +228,11 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         
         [notTheBall.node removeFromParent];
         
+        // increment score
+        [self addPoints:BrickPoint]; // the score is the number of demolished bricks
+        
         // remove a brick
         self.bricks--;
-        
         [self runAction:self.brickSound];
     }
     
@@ -203,9 +242,19 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     
     if (notTheBall.categoryBitMask == bottomEdgeCategory) {
         // Game Over
+        HUDNode *hud = (HUDNode*)[self childNodeWithName:@"hud"];
+        [hud saveHighScore];
+        
         EndScene *gameOver = [EndScene sceneWithSize:self.size];
         [self.view presentScene:gameOver transition:[SKTransition doorsCloseHorizontalWithDuration:1.0]];
     }
+}
+
+
+#pragma mark - Add Points to the Score, Save High Score
+- (void)addPoints:(NSInteger)points {
+    HUDNode *hud = (HUDNode*)[self childNodeWithName:@"hud"];
+    [hud addPoints:points];
 }
 
 
@@ -215,9 +264,34 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
     // check to see if we have no more bricks
     if (self.bricks == 0) {
         NSLog(@"Level Complete: %d", self.level);
-        self.bricks = 4;
-        self.level++;
-        [self addBricks:self.size];
+        
+        // check if level 1 make level 2 by adding 4 bricks
+        if (self.level == 1) {
+            self.bricks = BrickTier1;
+            self.level++;
+            [self addBricks:self.size atLevel:BrickTier1];
+        }
+        
+        // level 2 and above get two row of 4 bricks
+        if (self.level >= 2) {
+            self.bricks = BrickTier2;
+            self.level++;
+            [self addBricks:self.size atLevel:BrickTier2];
+
+            // Add a bit more force to the ball
+            [self addImpulse];
+        }
+    }
+    
+    // check to see if the ball is slowing down or speeding up and adjust
+    SKNode *ball = [self childNodeWithName:@"ball"];
+    static int maxSpeed = 1000;
+    float speed = sqrt(ball.physicsBody.velocity.dx * ball.physicsBody.velocity.dx +
+                       ball.physicsBody.velocity.dy * ball.physicsBody.velocity.dy);
+    if (speed > maxSpeed) {
+        ball.physicsBody.linearDamping = 2.2f;
+    } else {
+        ball.physicsBody.linearDamping = 0.0f;
     }
 }
 
