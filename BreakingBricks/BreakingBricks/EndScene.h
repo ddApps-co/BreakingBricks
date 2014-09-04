@@ -10,4 +10,6 @@
 
 @interface EndScene : SKScene
 
+- (instancetype)initWithSize:(CGSize)size andScore:(NSInteger)score;
+
 @end

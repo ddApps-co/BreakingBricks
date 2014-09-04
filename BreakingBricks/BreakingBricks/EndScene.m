@@ -8,15 +8,25 @@
 
 #import "EndScene.h"
 #import "MyScene.h"
+#import "HUDNode.h"
+#import "ViewController.h"
 
 @implementation EndScene
 
-- (instancetype)initWithSize:(CGSize)size {
+- (instancetype)initWithSize:(CGSize)size andScore:(NSInteger)score {
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor whiteColor];
         
         SKAction *gameOverSound = [SKAction playSoundFileNamed:@"gameover.caf" waitForCompletion:NO];
         [self runAction:gameOverSound];
+        
+        // add the score label        
+        SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
+        scoreLabel.text = [NSString stringWithFormat:@"Score: %d", score];
+        scoreLabel.fontColor = [SKColor blackColor];
+        scoreLabel.fontSize = 24;
+        scoreLabel.position = CGPointMake(self.frame.size.width/2, 50);
+        [self addChild:scoreLabel];
         
         // Game Over Message
         SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
@@ -41,6 +51,7 @@
     }
     return self;
 }
+
 
 // tap to return to the game scene
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

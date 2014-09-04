@@ -14,7 +14,7 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
+        
     // Configure the view.
     SKView * skView = (SKView *)self.view;
     
@@ -28,14 +28,17 @@
     }
 }
 
+
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
+
 
 - (BOOL)shouldAutorotate
 {
     return NO;
 }
+
 
 - (NSUInteger)supportedInterfaceOrientations
 {

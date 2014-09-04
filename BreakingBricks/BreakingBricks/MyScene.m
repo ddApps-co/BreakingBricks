@@ -224,6 +224,7 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         [self addChild:brickExplosion];
         [brickExplosion runAction:[SKAction waitForDuration:2.0] completion:^{
             [brickExplosion removeFromParent];
+            [self ballSpeedAdjust];
         }];
         
         [notTheBall.node removeFromParent];
@@ -245,9 +246,26 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
         HUDNode *hud = (HUDNode*)[self childNodeWithName:@"hud"];
         [hud saveHighScore];
         
-        EndScene *gameOver = [EndScene sceneWithSize:self.size];
+        EndScene *gameOver = [[EndScene alloc] initWithSize:self.size andScore:hud.score];
+        
         [self.view presentScene:gameOver transition:[SKTransition doorsCloseHorizontalWithDuration:1.0]];
     }
+}
+
+#pragma mark - Check to see if the ball is slowing down or speeding up and adjust
+
+- (void)ballSpeedAdjust {
+    SKNode* ball = [self childNodeWithName: @"ball"];
+    static int maxSpeed = 600;
+    CGVector velocity = ball.physicsBody.velocity;
+    float speed = sqrt(velocity.dx * velocity.dx + velocity.dy * velocity.dy);
+    NSLog(@"SPEED = %f", speed);
+    if (speed > maxSpeed) {
+        ball.physicsBody.linearDamping = 0.4f;
+    } else {
+        ball.physicsBody.linearDamping = 0.0f;
+    }
+    if (speed < 275) [self addImpulse];
 }
 
 
@@ -262,8 +280,9 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
 
 - (void)update:(NSTimeInterval)currentTime {
     // check to see if we have no more bricks
-    if (self.bricks == 0) {
-        NSLog(@"Level Complete: %d", self.level);
+    
+    if (self.bricks <= 0) {
+        NSLog(@"Level Complete: %ld", (long)self.level);
         
         // check if level 1 make level 2 by adding 4 bricks
         if (self.level == 1) {
@@ -279,20 +298,19 @@ static const uint32_t bottomEdgeCategory = 0x1 << 4;
             [self addBricks:self.size atLevel:BrickTier2];
 
             // Add a bit more force to the ball
-            [self addImpulse];
+            // [self addImpulse];
         }
     }
-    
-    // check to see if the ball is slowing down or speeding up and adjust
-    SKNode *ball = [self childNodeWithName:@"ball"];
-    static int maxSpeed = 1000;
-    float speed = sqrt(ball.physicsBody.velocity.dx * ball.physicsBody.velocity.dx +
-                       ball.physicsBody.velocity.dy * ball.physicsBody.velocity.dy);
-    if (speed > maxSpeed) {
-        ball.physicsBody.linearDamping = 2.2f;
-    } else {
-        ball.physicsBody.linearDamping = 0.0f;
-    }
+    [self ballSpeedAdjust];
+}
+
+
+- (void)didEvaluateActions {
+    [self ballSpeedAdjust];
+}
+
+- (void)didSimulatePhysics {
+    [self ballSpeedAdjust];
 }
 
 @end
