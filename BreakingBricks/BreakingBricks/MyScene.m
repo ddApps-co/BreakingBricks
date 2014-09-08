@@ -23,7 +23,7 @@ static const int RedBrick = 1;
 static const int BlueBrick = 2;
 static const int YellowBrick = 3;
 // Game Play
-static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
+static const int AdvancedGamePlay = 50; // Advanced Game Play Triggered
 
 
 @interface MyScene()
@@ -281,7 +281,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.bricks = BrickTier1;
         
         // there bottom edge is on
-        self.bottomEdgeOn = NO; // NO for testing
+        self.bottomEdgeOn = YES; // NO for testing
         
         HUDNode *hud = [HUDNode hudAtPosition:CGPointMake(0, self.frame.size.height-20)
                                       inFrame:self.frame];
