@@ -238,7 +238,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 }
 
 
-#pragma mark - Add Bottom Edge
+#pragma mark - Add and Remove the Bottom Edge
 
 - (void)addBottomEdge:(CGSize)size {
     if (self.bottomEdgeOn) {
@@ -246,7 +246,16 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         bottomEdge.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1)
                                                               toPoint:CGPointMake(size.width, 1)];
         bottomEdge.physicsBody.categoryBitMask = bottomEdgeCategory;
+        bottomEdge.name = @"bottomEdge";
         [self addChild:bottomEdge];
+    }
+}
+
+
+- (void)removeBottomEdge:(CGSize)size {
+    if (self.bottomEdgeOn) {
+        SKNode *bottomEdge = [self childNodeWithName: @"bottomEdge"];
+        [bottomEdge removeFromParent];
     }
 }
 
@@ -266,6 +275,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.gravity = CGVectorMake(0, 0);
         self.physicsWorld.contactDelegate = self;
         
+        // there bottom edge is on
+        self.bottomEdgeOn = YES; // NO for testing
+        
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
         [self addPlayer:size];
@@ -279,9 +291,6 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         // initialize level and bricks: Level 1 = 4 Bricks
         self.level = 1;
         self.bricks = BrickTier1;
-        
-        // there bottom edge is on
-        self.bottomEdgeOn = YES; // NO for testing
         
         HUDNode *hud = [HUDNode hudAtPosition:CGPointMake(0, self.frame.size.height-20)
                                       inFrame:self.frame];
@@ -323,6 +332,13 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     if (notTheBall.categoryBitMask == yellowBrickCategory) {
+        
+        // add the shield by removing the Bottom Edge
+        [self removeBottomEdge:self.size];
+        
+        // add a yellow graphic to depict the presence yellow shield
+        
+        // remove the yellow brick - includes any emitter work
         [self removeBrick:YellowBrick onBody:notTheBall];
     }
     
@@ -455,6 +471,13 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             [redball removeFromParent];
             // put in an explosion
             self.redBallInPlay = NO;
+        }
+        
+        // if the shield was added - remove it now by adding bottom edge
+        if (self.bottomEdgeOn) {
+            [self addBottomEdge:self.size];
+            
+            // remove yellow bottom shield graphic
         }
     }
     [self ballSpeedAdjust];

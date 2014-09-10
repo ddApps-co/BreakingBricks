@@ -217,9 +217,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3E7E298319B3BAC900C3DCBE /* BreakingBricks */ = {
+		3E7E298319B3BAC900C3DCBE /* Bricked */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3E7E29BD19B3BAC900C3DCBE /* Build configuration list for PBXNativeTarget "BreakingBricks" */;
+			buildConfigurationList = 3E7E29BD19B3BAC900C3DCBE /* Build configuration list for PBXNativeTarget "Bricked" */;
 			buildPhases = (
 				3E7E298019B3BAC900C3DCBE /* Sources */,
 				3E7E298119B3BAC900C3DCBE /* Frameworks */,
@@ -229,7 +229,7 @@
 			);
 			dependencies = (
 			);
-			name = BreakingBricks;
+			name = Bricked;
 			productName = BreakingBricks;
 			productReference = 3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */;
 			productType = "com.apple.product-type.application";
@@ -282,7 +282,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3E7E298319B3BAC900C3DCBE /* BreakingBricks */,
+				3E7E298319B3BAC900C3DCBE /* Bricked */,
 				3E7E29AB19B3BAC900C3DCBE /* BreakingBricksTests */,
 			);
 		};
@@ -345,7 +345,7 @@
 /* Begin PBXTargetDependency section */
 		3E7E29B219B3BAC900C3DCBE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3E7E298319B3BAC900C3DCBE /* BreakingBricks */;
+			target = 3E7E298319B3BAC900C3DCBE /* Bricked */;
 			targetProxy = 3E7E29B119B3BAC900C3DCBE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -534,7 +534,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3E7E29BD19B3BAC900C3DCBE /* Build configuration list for PBXNativeTarget "BreakingBricks" */ = {
+		3E7E29BD19B3BAC900C3DCBE /* Build configuration list for PBXNativeTarget "Bricked" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3E7E29BE19B3BAC900C3DCBE /* Debug */,
