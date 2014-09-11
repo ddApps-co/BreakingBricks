@@ -23,7 +23,7 @@ static const int RedBrick = 1;
 static const int BlueBrick = 2;
 static const int YellowBrick = 3;
 // Game Play
-static const int AdvancedGamePlay = 50; // Advanced Game Play Triggered
+static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
 
 
 @interface MyScene()
@@ -77,9 +77,6 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         
         // add the collision bitmask of the edge and the brick - ball passes right thru paddle
         // ball.physicsBody.collisionBitMask = edgeCategory | brickCategory;
-
-        
-        
     } else {
         ball = [SKSpriteNode spriteNodeWithImageNamed:@"redball"];
         ball.name = @"redball";
@@ -337,6 +334,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         [self removeBottomEdge:self.size];
         
         // add a yellow graphic to depict the presence yellow shield
+        [self drawBottomShield];
         
         // remove the yellow brick - includes any emitter work
         [self removeBrick:YellowBrick onBody:notTheBall];
@@ -478,6 +476,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             [self addBottomEdge:self.size];
             
             // remove yellow bottom shield graphic
+            [self eraseBottomShield];
         }
     }
     [self ballSpeedAdjust];
@@ -491,6 +490,32 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 - (void)didSimulatePhysics {
     [self ballSpeedAdjust];
+}
+
+
+#pragma mark - Draw Line on the Bottom to depict a protective shield
+
+- (void)drawBottomShield {
+    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellow_line@2x"];
+    bottomShield.name = @"bottomShield";
+    bottomShield.position = CGPointMake(self.frame.size.width/2, 150);
+    
+    bottomShield.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:bottomShield.frame.size];
+    
+    // make it static
+    bottomShield.physicsBody.dynamic = NO;
+    
+    [self addChild:bottomShield];
+    
+    // play a sound like a low hum
+}
+
+
+- (void)eraseBottomShield {
+    SKSpriteNode *bottomShield = (SKSpriteNode *)[self childNodeWithName:@"bottomShield"];
+    [bottomShield removeFromParent];
+    
+    // stop playing low hum sound
 }
 
 @end
