@@ -34,6 +34,7 @@ static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
 @property (nonatomic) NSInteger bricks;
 @property (nonatomic) BOOL redBallInPlay; // Keeps track when the Red Ball is in Play
 @property (nonatomic) BOOL bottomEdgeOn;  // Removes the bottome edge (Yellow Power On)
+@property (nonatomic) NSTimer *timer;     // Used to Pause Game between Brick Waves
 @end
 
 
@@ -293,8 +294,23 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
                                       inFrame:self.frame];
         [self addChild:hud];
         [hud loadHighScore];
+        
+        // set a timer for level wave pausing
+        [self setTimer];
     }
     return self;
+}
+
+
+- (void)setTimer {
+    NSMethodSignature *signature = [self methodSignatureForSelector:@selector(onResume:)];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
+    [invocation setTarget: self];
+    [invocation setSelector:@selector(onResume:)];
+    
+    self.timer = [NSTimer timerWithTimeInterval: 3.0
+                                     invocation:invocation
+                                        repeats:YES];
 }
 
 
@@ -439,6 +455,13 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     if (self.bricks <= 0) {
         NSLog(@"Level Complete: %ld", (long)self.level);
         
+        // pause screen for the player to realize the level is complete
+        [self.scene.view setPaused:YES];
+        NSRunLoop *runner = [NSRunLoop currentRunLoop];
+        [runner addTimer: self.timer forMode: NSDefaultRunLoopMode];
+        
+        // Flash on Screen a Wave Complete Label which you take out in the onResume
+        
         // check if level 1 make level 2 by adding 4 bricks
         if (self.level == 1) {
             self.bricks = BrickTier1;
@@ -481,6 +504,12 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     [self ballSpeedAdjust];
     if (self.redBallInPlay) [self redBallSpeedAdjust];
+}
+
+
+- (void)onResume:(NSTimer *)timer {
+    [self.scene.view setPaused:NO];
+    [self.timer invalidate];
 }
 
 
