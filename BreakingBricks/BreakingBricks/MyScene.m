@@ -34,7 +34,7 @@ static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
 @property (nonatomic) NSInteger bricks;
 @property (nonatomic) BOOL redBallInPlay; // Keeps track when the Red Ball is in Play
 @property (nonatomic) BOOL bottomEdgeOn;  // Removes the bottome edge (Yellow Power On)
-@property (nonatomic) NSTimer *timer;     // Used to Pause Game between Brick Waves
+@property (nonatomic) BOOL waveCompletion;// Used as a waves completion mode indicator
 @end
 
 
@@ -295,22 +295,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         [self addChild:hud];
         [hud loadHighScore];
         
-        // set a timer for level wave pausing
-        [self setTimer];
+        self.waveCompletion = NO; // set to not in wave completion mode
     }
     return self;
-}
-
-
-- (void)setTimer {
-    NSMethodSignature *signature = [self methodSignatureForSelector:@selector(onResume:)];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setTarget: self];
-    [invocation setSelector:@selector(onResume:)];
-    
-    self.timer = [NSTimer timerWithTimeInterval: 3.0
-                                     invocation:invocation
-                                        repeats:YES];
 }
 
 
@@ -450,72 +437,89 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Update Loop Actions
 
 - (void)update:(NSTimeInterval)currentTime {
-    // check to see if we have no more bricks
-    
-    if (self.bricks <= 0) {
+    // check to see if we have no more bricks and not in waveCompletion
+    if (self.bricks <= 0 && !self.waveCompletion) {
+        self.waveCompletion = YES;
+        [self removeBall];
         NSLog(@"Level Complete: %ld", (long)self.level);
-        
-        // pause screen for the player to realize the level is complete
-        [self.scene.view setPaused:YES];
-        NSRunLoop *runner = [NSRunLoop currentRunLoop];
-        [runner addTimer: self.timer forMode: NSDefaultRunLoopMode];
-        
-        // Flash on Screen a Wave Complete Label which you take out in the onResume
-        
-        // check if level 1 make level 2 by adding 4 bricks
-        if (self.level == 1) {
-            self.bricks = BrickTier1;
-            self.level++;
-            [self addBricks:self.size atLevel:BrickTier1];
-        }
-        
-        // level 2 and above get two row of 4 bricks
-        if (self.level >= 2) {
-            self.bricks = BrickTier2;
-            self.level++; // at level 3 used for advanced animation & bricks
-            [self addBricks:self.size atLevel:BrickTier2];
-
-            // Add a bit more force to the ball
-            // [self addImpulse];
-        }
-        
-        // Point based checking starts with three rows of 4 bricks
-        if ([self checkPoints] > AdvancedGamePlay) {
-            self.bricks = BrickTier3;
-            self.level++;
-            [self addBricks:self.size atLevel:BrickTier3];
-        }
-        
-        // remove the red ball if there is one
-        if (self.redBallInPlay) {
-            SKNode* redball = [self childNodeWithName: @"redball"];
-            [redball removeFromParent];
-            // put in an explosion
-            self.redBallInPlay = NO;
-        }
-        
-        // if the shield was added - remove it now by adding bottom edge
-        if (self.bottomEdgeOn) {
-            [self addBottomEdge:self.size];
             
-            // remove yellow bottom shield graphic
-            [self eraseBottomShield];
-        }
+        SKLabelNode *waveComplete = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
+        waveComplete.name = @"waveCompletion";
+        waveComplete.text = [NSString stringWithFormat:@"Wave %d Complete", self.level];
+        waveComplete.fontColor = [SKColor whiteColor];
+        waveComplete.fontSize = 24;
+        waveComplete.position = CGPointMake(self.size.width/2, self.size.height);
+        
+        SKAction *moveLabel = [SKAction moveToY:(self.size.height/2) duration:2.0];
+        [waveComplete runAction:moveLabel completion:^{
+            [self waveCompletionCheck];
+            [self ballSpeedAdjust];
+            if (self.redBallInPlay) [self redBallSpeedAdjust];
+            self.waveCompletion = NO; // reset in the completion handler
+            [waveComplete removeFromParent];
+            
+            [self addBall:self.size atPosition:CGPointZero ofType:GreyBall];
+        }];
+        
+        [self addChild:waveComplete];
     }
-    [self ballSpeedAdjust];
-    if (self.redBallInPlay) [self redBallSpeedAdjust];
 }
 
 
-- (void)onResume:(NSTimer *)timer {
-    [self.scene.view setPaused:NO];
-    [self.timer invalidate];
+- (void)removeBall {
+    SKNode* ball = [self childNodeWithName: @"ball"];
+    [ball removeFromParent];
+    // ball remove sound
+}
+
+
+- (void)waveCompletionCheck {
+    // check if level 1 make level 2 by adding 4 bricks
+    if (self.level == 1) {
+        self.bricks = BrickTier1;
+        self.level++;
+        [self addBricks:self.size atLevel:BrickTier1];
+    }
+    
+    // level 2 and above get two row of 4 bricks
+    else if (self.level >= 2) {
+        self.bricks = BrickTier2;
+        self.level++; // at level 3 used for advanced animation & bricks
+        [self addBricks:self.size atLevel:BrickTier2];
+        
+        // Add a bit more force to the ball
+        // [self addImpulse];
+    }
+    
+    // Point based checking starts with three rows of 4 bricks
+    else if ([self checkPoints] > AdvancedGamePlay) {
+        self.bricks = BrickTier3;
+        self.level++;
+        [self addBricks:self.size atLevel:BrickTier3];
+    }
+    
+    // remove the red ball if there is one
+    if (self.redBallInPlay) {
+        SKNode* redball = [self childNodeWithName: @"redball"];
+        [redball removeFromParent];
+        // put in an explosion
+        self.redBallInPlay = NO;
+    }
+    
+    // if the shield was added - remove it now by adding bottom edge
+    if (self.bottomEdgeOn) {
+        [self addBottomEdge:self.size];
+        
+        // remove yellow bottom shield graphic
+        [self eraseBottomShield];
+    }
 }
 
 
 - (void)didEvaluateActions {
     [self ballSpeedAdjust];
 }
+
 
 - (void)didSimulatePhysics {
     [self ballSpeedAdjust];
