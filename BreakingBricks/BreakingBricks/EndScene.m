@@ -10,6 +10,8 @@
 #import "MyScene.h"
 #import "HUDNode.h"
 #import "ViewController.h"
+#import "ALAdView.h"
+#import "ALInterstitialAd.h"
 
 @implementation EndScene
 
@@ -45,8 +47,9 @@
         tryAgain.position = CGPointMake(size.width/2, -50);
         
         SKAction *moveLabel = [SKAction moveToY:(size.height/2 - 40) duration:1.0];
-        [tryAgain runAction:moveLabel];
-        
+        [tryAgain runAction:moveLabel completion:^{
+            [ALInterstitialAd showOver:[[UIApplication sharedApplication] keyWindow]];
+        }];
         [self addChild:tryAgain];
     }
     return self;

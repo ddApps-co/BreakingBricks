@@ -16,7 +16,6 @@
 		3E21B0D419B62AF300ED0EC0 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0D219B62AF300ED0EC0 /* spark.png */; };
 		3E21B0D719B6884500ED0EC0 /* HUDNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E21B0D619B6884500ED0EC0 /* HUDNode.m */; };
 		3E21B0DA19BBC46C00ED0EC0 /* RedBrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0D819BBC46C00ED0EC0 /* RedBrickExplosion.sks */; };
-		3E21B0DB19BBC46C00ED0EC0 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0D919BBC46C00ED0EC0 /* spark.png */; };
 		3E21B0DE19BBE04E00ED0EC0 /* BlueBrickExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3E21B0DD19BBE04E00ED0EC0 /* BlueBrickExplosion.sks */; };
 		3E7E298819B3BAC900C3DCBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298719B3BAC900C3DCBE /* Foundation.framework */; };
 		3E7E298A19B3BAC900C3DCBE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */; };
@@ -34,6 +33,14 @@
 		3E7E29B019B3BAC900C3DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298B19B3BAC900C3DCBE /* UIKit.framework */; };
 		3E7E29B819B3BAC900C3DCBE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E7E29B619B3BAC900C3DCBE /* InfoPlist.strings */; };
 		3E7E29BA19B3BAC900C3DCBE /* BreakingBricksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7E29B919B3BAC900C3DCBE /* BreakingBricksTests.m */; };
+		3ED6A5E619C509C5003A57EA /* StartScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ED6A5E519C509C5003A57EA /* StartScene.m */; };
+		3ED6A5FB19C512FF003A57EA /* libAppLovinSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A5FA19C512FF003A57EA /* libAppLovinSdk.a */; };
+		3ED6A5FD19C51432003A57EA /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A5FC19C51432003A57EA /* AdSupport.framework */; };
+		3ED6A5FF19C51448003A57EA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A5FE19C51448003A57EA /* AVFoundation.framework */; };
+		3ED6A60119C51456003A57EA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60019C51456003A57EA /* CoreTelephony.framework */; };
+		3ED6A60319C51468003A57EA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60219C51468003A57EA /* CoreMedia.framework */; };
+		3ED6A60519C51473003A57EA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60419C51473003A57EA /* MediaPlayer.framework */; };
+		3ED6A60719C51482003A57EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60619C51482003A57EA /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,9 +65,8 @@
 		3E21B0D519B6884500ED0EC0 /* HUDNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDNode.h; sourceTree = "<group>"; };
 		3E21B0D619B6884500ED0EC0 /* HUDNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDNode.m; sourceTree = "<group>"; };
 		3E21B0D819BBC46C00ED0EC0 /* RedBrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = RedBrickExplosion.sks; path = explosions/RedBrickExplosion.sks; sourceTree = "<group>"; };
-		3E21B0D919BBC46C00ED0EC0 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spark.png; path = explosions/spark.png; sourceTree = "<group>"; };
 		3E21B0DD19BBE04E00ED0EC0 /* BlueBrickExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = BlueBrickExplosion.sks; path = explosions/BlueBrickExplosion.sks; sourceTree = "<group>"; };
-		3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakingBricks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E7E298419B3BAC900C3DCBE /* Bricked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bricked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7E298719B3BAC900C3DCBE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E7E298B19B3BAC900C3DCBE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -82,6 +88,32 @@
 		3E7E29B519B3BAC900C3DCBE /* BreakingBricksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BreakingBricksTests-Info.plist"; sourceTree = "<group>"; };
 		3E7E29B719B3BAC900C3DCBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3E7E29B919B3BAC900C3DCBE /* BreakingBricksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BreakingBricksTests.m; sourceTree = "<group>"; };
+		3ED6A5E419C509C5003A57EA /* StartScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScene.h; sourceTree = "<group>"; };
+		3ED6A5E519C509C5003A57EA /* StartScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScene.m; sourceTree = "<group>"; };
+		3ED6A5E919C512FF003A57EA /* ALAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAd.h; sourceTree = "<group>"; };
+		3ED6A5EA19C512FF003A57EA /* ALAdDisplayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdDisplayDelegate.h; sourceTree = "<group>"; };
+		3ED6A5EB19C512FF003A57EA /* ALAdLoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdLoadDelegate.h; sourceTree = "<group>"; };
+		3ED6A5EC19C512FF003A57EA /* ALAdRewardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdRewardDelegate.h; sourceTree = "<group>"; };
+		3ED6A5ED19C512FF003A57EA /* ALAdService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdService.h; sourceTree = "<group>"; };
+		3ED6A5EE19C512FF003A57EA /* ALAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdSize.h; sourceTree = "<group>"; };
+		3ED6A5EF19C512FF003A57EA /* ALAdType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdType.h; sourceTree = "<group>"; };
+		3ED6A5F019C512FF003A57EA /* ALAdUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdUpdateDelegate.h; sourceTree = "<group>"; };
+		3ED6A5F119C512FF003A57EA /* ALAdVideoPlaybackDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdVideoPlaybackDelegate.h; sourceTree = "<group>"; };
+		3ED6A5F219C512FF003A57EA /* ALAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdView.h; sourceTree = "<group>"; };
+		3ED6A5F319C512FF003A57EA /* ALErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALErrorCodes.h; sourceTree = "<group>"; };
+		3ED6A5F419C512FF003A57EA /* ALIncentivizedInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIncentivizedInterstitialAd.h; sourceTree = "<group>"; };
+		3ED6A5F519C512FF003A57EA /* ALInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALInterstitialAd.h; sourceTree = "<group>"; };
+		3ED6A5F619C512FF003A57EA /* ALSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSdk.h; sourceTree = "<group>"; };
+		3ED6A5F719C512FF003A57EA /* ALSdkSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSdkSettings.h; sourceTree = "<group>"; };
+		3ED6A5F819C512FF003A57EA /* ALSwiftHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSwiftHeaders.h; sourceTree = "<group>"; };
+		3ED6A5F919C512FF003A57EA /* ALTargetingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALTargetingData.h; sourceTree = "<group>"; };
+		3ED6A5FA19C512FF003A57EA /* libAppLovinSdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppLovinSdk.a; sourceTree = "<group>"; };
+		3ED6A5FC19C51432003A57EA /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		3ED6A5FE19C51448003A57EA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3ED6A60019C51456003A57EA /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		3ED6A60219C51468003A57EA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3ED6A60419C51473003A57EA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		3ED6A60619C51482003A57EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +121,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ED6A60719C51482003A57EA /* SystemConfiguration.framework in Frameworks */,
+				3ED6A60519C51473003A57EA /* MediaPlayer.framework in Frameworks */,
+				3ED6A60319C51468003A57EA /* CoreMedia.framework in Frameworks */,
+				3ED6A60119C51456003A57EA /* CoreTelephony.framework in Frameworks */,
+				3ED6A5FF19C51448003A57EA /* AVFoundation.framework in Frameworks */,
+				3ED6A5FD19C51432003A57EA /* AdSupport.framework in Frameworks */,
 				3E7E298A19B3BAC900C3DCBE /* CoreGraphics.framework in Frameworks */,
 				3E7E298C19B3BAC900C3DCBE /* UIKit.framework in Frameworks */,
 				3E7E298E19B3BAC900C3DCBE /* SpriteKit.framework in Frameworks */,
 				3E7E298819B3BAC900C3DCBE /* Foundation.framework in Frameworks */,
+				3ED6A5FB19C512FF003A57EA /* libAppLovinSdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +163,6 @@
 			children = (
 				3E21B0D819BBC46C00ED0EC0 /* RedBrickExplosion.sks */,
 				3E21B0DD19BBE04E00ED0EC0 /* BlueBrickExplosion.sks */,
-				3E21B0D919BBC46C00ED0EC0 /* spark.png */,
 				3E21B0D119B62AF300ED0EC0 /* BrickExplosion.sks */,
 				3E21B0D219B62AF300ED0EC0 /* spark.png */,
 			);
@@ -144,7 +182,7 @@
 		3E7E298519B3BAC900C3DCBE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */,
+				3E7E298419B3BAC900C3DCBE /* Bricked.app */,
 				3E7E29AC19B3BAC900C3DCBE /* BreakingBricksTests.xctest */,
 			);
 			name = Products;
@@ -153,6 +191,12 @@
 		3E7E298619B3BAC900C3DCBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3ED6A60619C51482003A57EA /* SystemConfiguration.framework */,
+				3ED6A60419C51473003A57EA /* MediaPlayer.framework */,
+				3ED6A60219C51468003A57EA /* CoreMedia.framework */,
+				3ED6A60019C51456003A57EA /* CoreTelephony.framework */,
+				3ED6A5FE19C51448003A57EA /* AVFoundation.framework */,
+				3ED6A5FC19C51432003A57EA /* AdSupport.framework */,
 				3E7E298719B3BAC900C3DCBE /* Foundation.framework */,
 				3E7E298919B3BAC900C3DCBE /* CoreGraphics.framework */,
 				3E7E298B19B3BAC900C3DCBE /* UIKit.framework */,
@@ -172,6 +216,8 @@
 				3E7E299F19B3BAC900C3DCBE /* ViewController.m */,
 				3E7E29A119B3BAC900C3DCBE /* MyScene.h */,
 				3E7E29A219B3BAC900C3DCBE /* MyScene.m */,
+				3ED6A5E419C509C5003A57EA /* StartScene.h */,
+				3ED6A5E519C509C5003A57EA /* StartScene.m */,
 				3E21B0CC19B5413D00ED0EC0 /* EndScene.h */,
 				3E21B0CD19B5413D00ED0EC0 /* EndScene.m */,
 				3E21B0D519B6884500ED0EC0 /* HUDNode.h */,
@@ -181,6 +227,7 @@
 				3E21B0DC19BBC47F00ED0EC0 /* Explosions */,
 				3E21B0C519B5322000ED0EC0 /* sounds */,
 				3E7E299019B3BAC900C3DCBE /* Supporting Files */,
+				3ED6A5E719C512D6003A57EA /* Third Party */,
 			);
 			path = BreakingBricks;
 			sourceTree = "<group>";
@@ -214,6 +261,39 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		3ED6A5E719C512D6003A57EA /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				3ED6A5E819C512FF003A57EA /* headers */,
+				3ED6A5FA19C512FF003A57EA /* libAppLovinSdk.a */,
+			);
+			name = "Third Party";
+			sourceTree = "<group>";
+		};
+		3ED6A5E819C512FF003A57EA /* headers */ = {
+			isa = PBXGroup;
+			children = (
+				3ED6A5E919C512FF003A57EA /* ALAd.h */,
+				3ED6A5EA19C512FF003A57EA /* ALAdDisplayDelegate.h */,
+				3ED6A5EB19C512FF003A57EA /* ALAdLoadDelegate.h */,
+				3ED6A5EC19C512FF003A57EA /* ALAdRewardDelegate.h */,
+				3ED6A5ED19C512FF003A57EA /* ALAdService.h */,
+				3ED6A5EE19C512FF003A57EA /* ALAdSize.h */,
+				3ED6A5EF19C512FF003A57EA /* ALAdType.h */,
+				3ED6A5F019C512FF003A57EA /* ALAdUpdateDelegate.h */,
+				3ED6A5F119C512FF003A57EA /* ALAdVideoPlaybackDelegate.h */,
+				3ED6A5F219C512FF003A57EA /* ALAdView.h */,
+				3ED6A5F319C512FF003A57EA /* ALErrorCodes.h */,
+				3ED6A5F419C512FF003A57EA /* ALIncentivizedInterstitialAd.h */,
+				3ED6A5F519C512FF003A57EA /* ALInterstitialAd.h */,
+				3ED6A5F619C512FF003A57EA /* ALSdk.h */,
+				3ED6A5F719C512FF003A57EA /* ALSdkSettings.h */,
+				3ED6A5F819C512FF003A57EA /* ALSwiftHeaders.h */,
+				3ED6A5F919C512FF003A57EA /* ALTargetingData.h */,
+			);
+			path = headers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -231,7 +311,7 @@
 			);
 			name = Bricked;
 			productName = BreakingBricks;
-			productReference = 3E7E298419B3BAC900C3DCBE /* BreakingBricks.app */;
+			productReference = 3E7E298419B3BAC900C3DCBE /* Bricked.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3E7E29AB19B3BAC900C3DCBE /* BreakingBricksTests */ = {
@@ -293,7 +373,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E21B0DB19BBC46C00ED0EC0 /* spark.png in Resources */,
 				3E7E299419B3BAC900C3DCBE /* InfoPlist.strings in Resources */,
 				3E21B0D419B62AF300ED0EC0 /* spark.png in Resources */,
 				3E21B0C919B5325D00ED0EC0 /* blip.caf in Resources */,
@@ -328,6 +407,7 @@
 				3E7E299A19B3BAC900C3DCBE /* AppDelegate.m in Sources */,
 				3E21B0D719B6884500ED0EC0 /* HUDNode.m in Sources */,
 				3E7E299619B3BAC900C3DCBE /* main.m in Sources */,
+				3ED6A5E619C509C5003A57EA /* StartScene.m in Sources */,
 				3E21B0CE19B5413D00ED0EC0 /* EndScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,6 +539,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BreakingBricks/BreakingBricks-Prefix.pch";
 				INFOPLIST_FILE = "BreakingBricks/BreakingBricks-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/xcodenerd/dev/github-projects/BreakingBricks/BreakingBricks/BreakingBricks",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
@@ -474,6 +562,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BreakingBricks/BreakingBricks-Prefix.pch";
 				INFOPLIST_FILE = "BreakingBricks/BreakingBricks-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/xcodenerd/dev/github-projects/BreakingBricks/BreakingBricks/BreakingBricks",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
