@@ -10,7 +10,7 @@
 #import "MyScene.h"
 #import "HUDNode.h"
 #import "ViewController.h"
-#import "ALAdView.h"
+// #import "ALAdView.h"
 #import "ALInterstitialAd.h"
 
 @implementation EndScene
@@ -48,7 +48,10 @@
         
         SKAction *moveLabel = [SKAction moveToY:(size.height/2 - 40) duration:1.0];
         [tryAgain runAction:moveLabel completion:^{
-            [ALInterstitialAd showOver:[[UIApplication sharedApplication] keyWindow]];
+            // Show an Ad if more than 24 points
+            if (score > 24) {
+                [ALInterstitialAd showOver:[[UIApplication sharedApplication] keyWindow]];
+            }
         }];
         [self addChild:tryAgain];
     }

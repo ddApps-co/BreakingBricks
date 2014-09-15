@@ -23,7 +23,10 @@ static const int RedBrick = 1;
 static const int BlueBrick = 2;
 static const int YellowBrick = 3;
 // Game Play
-static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
+static const int AdvancedGamePlay = 24;      // Advanced Game Play Triggered
+static const int AdvancedGamePlayTier1 = 30; // 1 Row Advanced
+static const int AdvancedGamePlayTier2 = 40; // 1 Row Advanced
+static const int AdvancedGamePlayTier3 = 50; // 1 Row Advanced
 
 
 @interface MyScene()
@@ -32,9 +35,12 @@ static const int AdvancedGamePlay = 10; // Advanced Game Play Triggered
 @property (nonatomic) SKAction *brickSound;
 @property (nonatomic) NSInteger level;
 @property (nonatomic) NSInteger bricks;
-@property (nonatomic) BOOL redBallInPlay; // Keeps track when the Red Ball is in Play
-@property (nonatomic) BOOL bottomEdgeOn;  // Removes the bottome edge (Yellow Power On)
-@property (nonatomic) BOOL waveCompletion;// Used as a waves completion mode indicator
+@property (nonatomic) BOOL redBallInPlay;   // Keeps track when the Red Ball is in Play
+@property (nonatomic) BOOL bottomEdgeOn;    // Removes the bottome edge (Yellow Power On)
+@property (nonatomic) BOOL levelCompletion; // Used as a level completion mode indicator
+@property (nonatomic) BOOL yellowBrick;     // Used to ensure only 1 Yellow per Level
+@property (nonatomic) NSInteger AGPLevel;   // Advanced Game Play Level
+@property (nonatomic) NSInteger specialBricks; // Track the number of special bricks in a level
 @end
 
 
@@ -113,7 +119,8 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     
     if (self.redBallInPlay) {
         SKSpriteNode *redball = (SKSpriteNode*)[self childNodeWithName:@"redball"];
-        [redball.physicsBody applyImpulse:vector];
+        CGVector redVector = CGVectorMake(5, 5);
+        [redball.physicsBody applyImpulse:redVector];
     }
 }
 
@@ -160,13 +167,31 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Add Bricks
 
 - (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
+    int brickRowPosition;
+    if (brickTier == BrickTier1) brickRowPosition= 50;
+    if (brickTier == BrickTier2) brickRowPosition= 100;
+    if (brickTier == BrickTier3) brickRowPosition= 150;
+    
+    NSInteger numberOfSpecialBricks = 0;
+    
     for (int i = 0; i < 4; i++) {
         SKSpriteNode *brick = [SKSpriteNode node];
-        // NSLog(@"Level = %d", self.level);
+        
         if ([self checkPoints] >= AdvancedGamePlay) {
-            NSArray *brickArray = @[@"brick", @"redbrick", @"bluebrick", @"yellowbrick"];
-            uint32_t brickCategoryArray[4] = {greyBrickCategory, redBrickCategory, blueBrickCategory, yellowBrickCategory};
-            NSUInteger brickTypeNumber = arc4random_uniform(4);
+            NSArray *brickArray = @[@"brick", @"bluebrick", @"yellowbrick", @"redbrick"];
+            uint32_t brickCategoryArray[4] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, redBrickCategory};
+            
+            if (self.AGPLevel > 4) self.AGPLevel = 4;
+            NSUInteger brickTypeNumber = arc4random_uniform(self.AGPLevel);
+            
+            if (numberOfSpecialBricks < self.specialBricks) {
+                numberOfSpecialBricks++;
+                if ((brickTypeNumber == 3) && (!self.yellowBrick)) {
+                    self.yellowBrick = YES;
+                } else if ((brickTypeNumber == 3) && (self.yellowBrick)) {
+                    brickTypeNumber = 0;
+                }
+            } else brickTypeNumber = 0;
             
             NSString *brickType = brickArray[brickTypeNumber];
             brick = [SKSpriteNode spriteNodeWithImageNamed:brickType];
@@ -187,51 +212,12 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             // add category
             brick.physicsBody.categoryBitMask = greyBrickCategory;
         }
-    
+        
         int xPosition = size.width/5 * (i+1);
-        int yPosition = size.height - 50;
+        int yPosition = size.height - brickRowPosition;
         brick.position = CGPointMake(xPosition, yPosition);
         
         [self addChild:brick];
-    }
-    
-    // if brickTier == 2 draw a second row
-    if (brickTier == BrickTier2) {
-        for (int i = 0; i < 4; i++) {
-            SKSpriteNode *brick = [SKSpriteNode spriteNodeWithImageNamed:@"brick"];
-            
-            // add a static physics body
-            brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
-            brick.physicsBody.dynamic = NO;
-            
-            // add category
-            brick.physicsBody.categoryBitMask = greyBrickCategory;
-            
-            int xPosition = size.width/5 * (i+1);
-            int yPosition = size.height - 100;
-            brick.position = CGPointMake(xPosition, yPosition);
-            
-            [self addChild:brick];
-        }
-    }
-    // if brickTier == 3 draw a third row
-    if (brickTier == BrickTier3) {
-        for (int i = 0; i < 4; i++) {
-            SKSpriteNode *brick = [SKSpriteNode spriteNodeWithImageNamed:@"brick"];
-            
-            // add a static physics body
-            brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
-            brick.physicsBody.dynamic = NO;
-            
-            // add category
-            brick.physicsBody.categoryBitMask = greyBrickCategory;
-            
-            int xPosition = size.width/5 * (i+1);
-            int yPosition = size.height - 150;
-            brick.position = CGPointMake(xPosition, yPosition);
-            
-            [self addChild:brick];
-        }
     }
 }
 
@@ -295,7 +281,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         [self addChild:hud];
         [hud loadHighScore];
         
-        self.waveCompletion = NO; // set to not in wave completion mode
+        self.levelCompletion = NO; // set to not in level completion mode
+        self.yellowBrick = NO;     // set to no Yellow Brick Yet
+        self.specialBricks = 0;    // initialize the number of special bricks to zero
     }
     return self;
 }
@@ -405,7 +393,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 - (void)redBallSpeedAdjust {
     SKNode* ball = [self childNodeWithName: @"redBall"];
-    static int maxSpeed = 800;
+    static int maxSpeed = 150;
     CGVector velocity = ball.physicsBody.velocity;
     float speed = sqrt(velocity.dx * velocity.dx + velocity.dy * velocity.dy);
     if (speed > maxSpeed) {
@@ -414,9 +402,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         ball.physicsBody.linearDamping = 0.0f;
     }
     if (self.level >= 3) {
-        if (speed < 500) [self addImpulse]; // Faster
+        if (speed < 100) [self addImpulse]; // Faster
     } else {
-        if (speed < 300) [self addImpulse]; // Normal Speed
+        if (speed < 50) [self addImpulse]; // Normal Speed
     }
 }
 
@@ -437,31 +425,31 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Update Loop Actions
 
 - (void)update:(NSTimeInterval)currentTime {
-    // check to see if we have no more bricks and not in waveCompletion
-    if (self.bricks <= 0 && !self.waveCompletion) {
-        self.waveCompletion = YES;
+    // check to see if we have no more bricks and not in level completion mode
+    if (self.bricks <= 0 && !self.levelCompletion) {
+        self.levelCompletion = YES;
         [self removeBall];
         NSLog(@"Level Complete: %ld", (long)self.level);
             
-        SKLabelNode *waveComplete = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
-        waveComplete.name = @"waveCompletion";
-        waveComplete.text = [NSString stringWithFormat:@"Wave %d Complete", self.level];
-        waveComplete.fontColor = [SKColor whiteColor];
-        waveComplete.fontSize = 24;
-        waveComplete.position = CGPointMake(self.size.width/2, self.size.height);
+        SKLabelNode *levelCompleteLabel = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
+        levelCompleteLabel.name = @"levelCompletion";
+        levelCompleteLabel.text = [NSString stringWithFormat:@"Level %d Complete", self.level];
+        levelCompleteLabel.fontColor = [SKColor whiteColor];
+        levelCompleteLabel.fontSize = 24;
+        levelCompleteLabel.position = CGPointMake(self.size.width/2, self.size.height);
         
         SKAction *moveLabel = [SKAction moveToY:(self.size.height/2) duration:2.0];
-        [waveComplete runAction:moveLabel completion:^{
-            [self waveCompletionCheck];
+        [levelCompleteLabel runAction:moveLabel completion:^{
+            [self levelCompletionCheck];
             [self ballSpeedAdjust];
             if (self.redBallInPlay) [self redBallSpeedAdjust];
-            self.waveCompletion = NO; // reset in the completion handler
-            [waveComplete removeFromParent];
+            self.levelCompletion = NO; // reset in the completion handler
+            [levelCompleteLabel removeFromParent];
             
             [self addBall:self.size atPosition:CGPointZero ofType:GreyBall];
         }];
         
-        [self addChild:waveComplete];
+        [self addChild:levelCompleteLabel];
     }
 }
 
@@ -473,30 +461,29 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 }
 
 
-- (void)waveCompletionCheck {
+- (void)levelCompletionCheck {
     // check if level 1 make level 2 by adding 4 bricks
     if (self.level == 1) {
-        self.bricks = BrickTier1;
+        self.bricks = BrickTier2;
         self.level++;
         [self addBricks:self.size atLevel:BrickTier1];
-    }
-    
-    // level 2 and above get two row of 4 bricks
-    else if (self.level >= 2) {
-        self.bricks = BrickTier2;
-        self.level++; // at level 3 used for advanced animation & bricks
         [self addBricks:self.size atLevel:BrickTier2];
-        
-        // Add a bit more force to the ball
-        // [self addImpulse];
     }
     
-    // Point based checking starts with three rows of 4 bricks
-    else if ([self checkPoints] > AdvancedGamePlay) {
+    // level 2 get two rows of 4 bricks each
+    else if (self.level >= 2) {
         self.bricks = BrickTier3;
         self.level++;
+        
+        if (self.level > 4) self.AGPLevel++;
+        NSLog(@"AGP Level = %d", self.AGPLevel);
+        
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
         [self addBricks:self.size atLevel:BrickTier3];
     }
+    
+    if (self.level > 4) self.specialBricks++; // increment the number of special bricks
     
     // remove the red ball if there is one
     if (self.redBallInPlay) {
@@ -513,6 +500,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         // remove yellow bottom shield graphic
         [self eraseBottomShield];
     }
+    
+    // if there was a Yellow Brick - reset
+    self.yellowBrick = NO;
 }
 
 
@@ -529,7 +519,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Draw Line on the Bottom to depict a protective shield
 
 - (void)drawBottomShield {
-    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellow_line@2x"];
+    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellow_shield"];
     bottomShield.name = @"bottomShield";
     bottomShield.position = CGPointMake(self.frame.size.width/2, 150);
     
