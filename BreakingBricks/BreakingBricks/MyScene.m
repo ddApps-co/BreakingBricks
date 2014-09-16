@@ -28,6 +28,8 @@ static const int AdvancedGamePlayTier1 = 30; // 1 Row Advanced
 static const int AdvancedGamePlayTier2 = 40; // 1 Row Advanced
 static const int AdvancedGamePlayTier3 = 50; // 1 Row Advanced
 
+static const int PointsToGetBall = 10; //Free Ball at this number of Bricks
+
 
 @interface MyScene()
 @property (nonatomic) SKSpriteNode *paddle;
@@ -41,6 +43,7 @@ static const int AdvancedGamePlayTier3 = 50; // 1 Row Advanced
 @property (nonatomic) BOOL yellowBrick;     // Used to ensure only 1 Yellow per Level
 @property (nonatomic) NSInteger AGPLevel;   // Advanced Game Play Level
 @property (nonatomic) NSInteger specialBricks; // Track the number of special bricks in a level
+@property (nonatomic) NSInteger numberOfBalls; // Track how many balls player has
 @end
 
 
@@ -167,14 +170,14 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Add Bricks
 
 - (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
-    int brickRowPosition;
-    if (brickTier == BrickTier1) brickRowPosition= 50;
-    if (brickTier == BrickTier2) brickRowPosition= 100;
-    if (brickTier == BrickTier3) brickRowPosition= 150;
+    int brickRowPosition, bricksPerRow;
+    if (brickTier == BrickTier1) { brickRowPosition= 50;  bricksPerRow = 4; }
+    if (brickTier == BrickTier2) { brickRowPosition= 85;  bricksPerRow = 4; }
+    if (brickTier == BrickTier3) { brickRowPosition= 120; bricksPerRow = 4; }
     
     NSInteger numberOfSpecialBricks = 0;
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < bricksPerRow; i++) {
         SKSpriteNode *brick = [SKSpriteNode node];
         
         if ([self checkPoints] >= AdvancedGamePlay) {
@@ -284,6 +287,8 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.levelCompletion = NO; // set to not in level completion mode
         self.yellowBrick = NO;     // set to no Yellow Brick Yet
         self.specialBricks = 0;    // initialize the number of special bricks to zero
+        
+        self.numberOfBalls = 0; // start the player with no extra lives - earn it
     }
     return self;
 }
@@ -363,6 +368,15 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     
     // increment score
     [self addPoints:BrickPoint]; // the score is the number of demolished bricks
+    
+    // check to see if we achieved a new ball
+    int currentPoints = [self checkPoints];
+    int newBallCount = currentPoints % PointsToGetBall;
+    if (newBallCount > self.numberOfBalls) {
+        // play new ball sound
+        
+        self.numberOfBalls = newBallCount;
+    }
     
     // remove a brick
     self.bricks--;
