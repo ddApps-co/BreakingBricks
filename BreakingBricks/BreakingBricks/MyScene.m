@@ -17,19 +17,27 @@ static const int RedBall = 1;           // The Red Ball
 static const int BrickTier1 = 4;        // Number of Bricks in Level
 static const int BrickTier2 = 8;
 static const int BrickTier3 = 12;
+static const int BrickTier4 = 16;
+
 // Brick Types
 static const int GreyBrick = 0;
 static const int RedBrick = 1;
 static const int BlueBrick = 2;
 static const int YellowBrick = 3;
 // Game Play
-static const int AdvancedGamePlay = 24;      // Advanced Game Play Triggered
+static const int AdvancedGamePlay = 24;      // Advanced Game Play Triggered @Level 3
 static const int AdvancedGamePlayTier1 = 30; // 1 Row Advanced
 static const int AdvancedGamePlayTier2 = 40; // 1 Row Advanced
 static const int AdvancedGamePlayTier3 = 50; // 1 Row Advanced
 
 static const int PointsToGetBall = 10; //Free Ball at this number of Bricks
 
+typedef enum brickColors {
+    greyBrick,
+    blueBrick,
+    yellowBrick,
+    redBrick
+} BrickColor;
 
 @interface MyScene()
 @property (nonatomic) SKSpriteNode *paddle;
@@ -174,6 +182,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     if (brickTier == BrickTier1) { brickRowPosition= 50;  bricksPerRow = 4; }
     if (brickTier == BrickTier2) { brickRowPosition= 85;  bricksPerRow = 4; }
     if (brickTier == BrickTier3) { brickRowPosition= 120; bricksPerRow = 4; }
+    if (brickTier == BrickTier4) { brickRowPosition= 155; bricksPerRow = 4; }
     
     NSInteger numberOfSpecialBricks = 0;
     
@@ -181,20 +190,28 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         SKSpriteNode *brick = [SKSpriteNode node];
         
         if ([self checkPoints] >= AdvancedGamePlay) {
+            NSLog(@"Entered AGP");
             NSArray *brickArray = @[@"brick", @"bluebrick", @"yellowbrick", @"redbrick"];
             uint32_t brickCategoryArray[4] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, redBrickCategory};
             
-            if (self.AGPLevel > 4) self.AGPLevel = 4;
-            NSUInteger brickTypeNumber = arc4random_uniform(self.AGPLevel);
+            BrickColor brickTypeNumber ;
+            if (self.level == 3) brickTypeNumber = arc4random_uniform(greyBrick);
+            if (self.level == 4) brickTypeNumber = arc4random_uniform(blueBrick);
+            if (self.level == 5) brickTypeNumber = arc4random_uniform(yellowBrick);
+            if (self.level >  5) brickTypeNumber = arc4random_uniform(redBrick);
             
-            if (numberOfSpecialBricks < self.specialBricks) {
-                numberOfSpecialBricks++;
-                if ((brickTypeNumber == 3) && (!self.yellowBrick)) {
-                    self.yellowBrick = YES;
-                } else if ((brickTypeNumber == 3) && (self.yellowBrick)) {
-                    brickTypeNumber = 0;
-                }
-            } else brickTypeNumber = 0;
+            // if (self.AGPLevel > 4) self.AGPLevel = 4;
+            
+            // NSUInteger brickTypeNumber = arc4random_uniform(self.AGPLevel);
+            
+            //if (numberOfSpecialBricks < self.specialBricks) {
+                // numberOfSpecialBricks++;
+            if ((brickTypeNumber == yellowBrick) && (!self.yellowBrick)) {
+                self.yellowBrick = YES;
+            } else if ((brickTypeNumber == yellowBrick) && (self.yellowBrick)) {
+                brickTypeNumber = greyBrick;
+            }
+            //} else brickTypeNumber = 0;
             
             NSString *brickType = brickArray[brickTypeNumber];
             brick = [SKSpriteNode spriteNodeWithImageNamed:brickType];
@@ -263,7 +280,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.contactDelegate = self;
         
         // there bottom edge is on
-        self.bottomEdgeOn = YES; // NO for testing
+        self.bottomEdgeOn = NO; // NO for testing
         
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
@@ -476,7 +493,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 
 - (void)levelCompletionCheck {
-    // check if level 1 make level 2 by adding 4 bricks
+    // check if level 1 make level 2 by adding two rows of 4 bricks
     if (self.level == 1) {
         self.bricks = BrickTier2;
         self.level++;
@@ -484,20 +501,36 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         [self addBricks:self.size atLevel:BrickTier2];
     }
     
-    // level 2 get two rows of 4 bricks each
-    else if (self.level >= 2) {
+    // above level 2 get two rows of 4 bricks each
+    else if ((self.level >= 2) && (self.level < 5)) {
         self.bricks = BrickTier3;
         self.level++;
         
-        if (self.level > 4) self.AGPLevel++;
+        if (self.level > 2) self.AGPLevel++;
         NSLog(@"AGP Level = %d", self.AGPLevel);
+        self.specialBricks++; // increment the number of special bricks
+        NSLog(@"special bricks = %d", self.specialBricks);
         
         [self addBricks:self.size atLevel:BrickTier1];
         [self addBricks:self.size atLevel:BrickTier2];
         [self addBricks:self.size atLevel:BrickTier3];
     }
     
-    if (self.level > 4) self.specialBricks++; // increment the number of special bricks
+    // level 5 get two rows of 4 bricks each
+    else if (self.level >= 5) {
+        self.bricks = BrickTier4;
+        self.level++;
+        
+        if (self.level > 5) self.AGPLevel++;
+        NSLog(@"AGP Level = %d", self.AGPLevel);
+        self.specialBricks++; // increment the number of special bricks
+        NSLog(@"special bricks = %d", self.specialBricks);
+        
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+    }
     
     // remove the red ball if there is one
     if (self.redBallInPlay) {
@@ -508,15 +541,17 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     // if the shield was added - remove it now by adding bottom edge
-    if (self.bottomEdgeOn) {
-        [self addBottomEdge:self.size];
-        
+    // if (self.bottomEdgeOn) {
+    //     [self addBottomEdge:self.size];
+    // }
+    
+    // if there was a Yellow Brick - reset and remove the shield
+    if (self.yellowBrick) {
+        self.yellowBrick = NO;
         // remove yellow bottom shield graphic
         [self eraseBottomShield];
     }
-    
-    // if there was a Yellow Brick - reset
-    self.yellowBrick = NO;
+
 }
 
 
