@@ -190,7 +190,6 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         SKSpriteNode *brick = [SKSpriteNode node];
         
         if ([self checkPoints] >= AdvancedGamePlay) {
-            NSLog(@"Entered AGP");
             NSArray *brickArray = @[@"brick", @"bluebrick", @"yellowbrick", @"redbrick"];
             uint32_t brickCategoryArray[4] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, redBrickCategory};
             
@@ -280,7 +279,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.contactDelegate = self;
         
         // there bottom edge is on
-        self.bottomEdgeOn = NO; // NO for testing
+        self.bottomEdgeOn = YES; // NO for testing
         
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
@@ -344,7 +343,8 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     if (notTheBall.categoryBitMask == yellowBrickCategory) {
         
         // add the shield by removing the Bottom Edge
-        [self removeBottomEdge:self.size];
+        // the shield is so large this is not needed anymore
+        // [self removeBottomEdge:self.size];
         
         // add a yellow graphic to depict the presence yellow shield
         [self drawBottomShield];
@@ -502,7 +502,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     // above level 2 get two rows of 4 bricks each
-    else if ((self.level >= 2) && (self.level < 5)) {
+    else if ((self.level >= 2) && (self.level < 4)) {
         self.bricks = BrickTier3;
         self.level++;
         
@@ -517,7 +517,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     // level 5 get two rows of 4 bricks each
-    else if (self.level >= 5) {
+    else if (self.level >= 4) {
         self.bricks = BrickTier4;
         self.level++;
         
