@@ -215,6 +215,12 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             NSString *brickType = brickArray[brickTypeNumber];
             brick = [SKSpriteNode spriteNodeWithImageNamed:brickType];
             
+            // if a blue brick use the userData to keep a power level
+            if (brickTypeNumber == blueBrick) {
+                brick.userData = [NSMutableDictionary dictionary];
+                [brick.userData setValue:@1 forKey:@"Power"];
+            }
+            
             // add a static physics body
             brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
             brick.physicsBody.dynamic = NO;
@@ -336,8 +342,16 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         }
     }
     
+    // the blue brick takes two hits to eliminate
     if (notTheBall.categoryBitMask == blueBrickCategory) {
-        [self removeBrick:BlueBrick onBody:notTheBall];
+        NSNumber *powerLevel = (NSNumber *)[notTheBall.node.userData objectForKey:@"Power"];
+        if ([powerLevel isEqual:@1]) {
+            [notTheBall.node.userData setValue:@0 forKey:@"Power"];
+             SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"lightbluebrick"]];
+            [notTheBall.node runAction:changeColor];
+        } else {
+            [self removeBrick:BlueBrick onBody:notTheBall];
+        }
     }
     
     if (notTheBall.categoryBitMask == yellowBrickCategory) {
