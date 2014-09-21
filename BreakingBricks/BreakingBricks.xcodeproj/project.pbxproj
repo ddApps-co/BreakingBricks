@@ -41,6 +41,7 @@
 		3ED6A60319C51468003A57EA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60219C51468003A57EA /* CoreMedia.framework */; };
 		3ED6A60519C51473003A57EA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60419C51473003A57EA /* MediaPlayer.framework */; };
 		3ED6A60719C51482003A57EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A60619C51482003A57EA /* SystemConfiguration.framework */; };
+		3ED6A60919CE523F003A57EA /* brick7p.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3ED6A60819CE523F003A57EA /* brick7p.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		3ED6A60219C51468003A57EA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3ED6A60419C51473003A57EA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3ED6A60619C51482003A57EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3ED6A60819CE523F003A57EA /* brick7p.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = brick7p.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 				3E21B0D519B6884500ED0EC0 /* HUDNode.h */,
 				3E21B0D619B6884500ED0EC0 /* HUDNode.m */,
 				3E7E29A619B3BAC900C3DCBE /* Images.xcassets */,
+				3ED6A60819CE523F003A57EA /* brick7p.atlas */,
 				3E21B0CF19B620E000ED0EC0 /* bricks.atlas */,
 				3E21B0DC19BBC47F00ED0EC0 /* Explosions */,
 				3E21B0C519B5322000ED0EC0 /* sounds */,
@@ -379,6 +382,7 @@
 				3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */,
 				3E7E29A719B3BAC900C3DCBE /* Images.xcassets in Resources */,
 				3E7E299D19B3BAC900C3DCBE /* Main.storyboard in Resources */,
+				3ED6A60919CE523F003A57EA /* brick7p.atlas in Resources */,
 				3E21B0D319B62AF300ED0EC0 /* BrickExplosion.sks in Resources */,
 				3E21B0D019B620E000ED0EC0 /* bricks.atlas in Resources */,
 				3E21B0DE19BBE04E00ED0EC0 /* BlueBrickExplosion.sks in Resources */,

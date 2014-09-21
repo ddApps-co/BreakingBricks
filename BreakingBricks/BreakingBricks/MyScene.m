@@ -75,7 +75,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     // create a new sprite node from an image
     SKSpriteNode *ball = [SKSpriteNode node];
     if (ballType == GreyBall) {
-        ball = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
+        ball = [SKSpriteNode spriteNodeWithImageNamed:@"ballGrey-7p"];
         ball.name = @"ball";
         // create a CGPoint for position
         CGPoint point = CGPointMake(size.width/2, size.height/2);
@@ -96,7 +96,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         // add the collision bitmask of the edge and the brick - ball passes right thru paddle
         // ball.physicsBody.collisionBitMask = edgeCategory | brickCategory;
     } else {
-        ball = [SKSpriteNode spriteNodeWithImageNamed:@"redball"];
+        ball = [SKSpriteNode spriteNodeWithImageNamed:@"ballRed-7p"];
         ball.name = @"redball";
         ball.position = ballPosition;
         
@@ -140,7 +140,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 - (void)addPlayer:(CGSize)size {
     // create paddle sprite
-    self.paddle = [SKSpriteNode spriteNodeWithImageNamed:@"paddle"];
+    self.paddle = [SKSpriteNode spriteNodeWithImageNamed:@"paddle-7p"];
     self.paddle.position = CGPointMake(size.width/2, 100);
     self.paddle.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.paddle.frame.size];
     
@@ -190,7 +190,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         SKSpriteNode *brick = [SKSpriteNode node];
         
         if ([self checkPoints] >= AdvancedGamePlay) {
-            NSArray *brickArray = @[@"brick", @"bluebrick", @"yellowbrick", @"redbrick"];
+            NSArray *brickArray = @[@"greyBrick-7p", @"blueDark-7p", @"yellowBrick-7p", @"redBrick-7p"];
             uint32_t brickCategoryArray[4] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, redBrickCategory};
             
             BrickColor brickTypeNumber ;
@@ -229,7 +229,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             brick.physicsBody.categoryBitMask = brickCategoryArray[brickTypeNumber];
             
         } else {
-            brick = [SKSpriteNode spriteNodeWithImageNamed:@"brick"];
+            brick = [SKSpriteNode spriteNodeWithImageNamed:@"greyBrick-7p"];
             // add a static physics body
             brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
             brick.physicsBody.dynamic = NO;
@@ -285,7 +285,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.contactDelegate = self;
         
         // there bottom edge is on
-        self.bottomEdgeOn = YES; // NO for testing
+        self.bottomEdgeOn = NO; // NO for testing
         
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
@@ -347,7 +347,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         NSNumber *powerLevel = (NSNumber *)[notTheBall.node.userData objectForKey:@"Power"];
         if ([powerLevel isEqual:@1]) {
             [notTheBall.node.userData setValue:@0 forKey:@"Power"];
-             SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"lightbluebrick"]];
+             SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"blueLight-7p"]];
             [notTheBall.node runAction:changeColor];
         } else {
             [self removeBrick:BlueBrick onBody:notTheBall];
@@ -582,7 +582,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Draw Line on the Bottom to depict a protective shield
 
 - (void)drawBottomShield {
-    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellow_shield"];
+    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellowShield-7p"];
     bottomShield.name = @"bottomShield";
     bottomShield.position = CGPointMake(self.frame.size.width/2, 150);
     
