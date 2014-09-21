@@ -285,7 +285,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.contactDelegate = self;
         
         // there bottom edge is on
-        self.bottomEdgeOn = NO; // NO for testing
+        self.bottomEdgeOn = YES; // NO for testing
         
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
