@@ -33,6 +33,7 @@
 		3E7E29B019B3BAC900C3DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7E298B19B3BAC900C3DCBE /* UIKit.framework */; };
 		3E7E29B819B3BAC900C3DCBE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E7E29B619B3BAC900C3DCBE /* InfoPlist.strings */; };
 		3E7E29BA19B3BAC900C3DCBE /* BreakingBricksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7E29B919B3BAC900C3DCBE /* BreakingBricksTests.m */; };
+		3E9B865A19D0C5150068A82A /* BlueSmoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3E9B865919D0C5150068A82A /* BlueSmoke.sks */; };
 		3ED6A5E619C509C5003A57EA /* StartScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ED6A5E519C509C5003A57EA /* StartScene.m */; };
 		3ED6A5FB19C512FF003A57EA /* libAppLovinSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A5FA19C512FF003A57EA /* libAppLovinSdk.a */; };
 		3ED6A5FD19C51432003A57EA /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED6A5FC19C51432003A57EA /* AdSupport.framework */; };
@@ -89,6 +90,7 @@
 		3E7E29B519B3BAC900C3DCBE /* BreakingBricksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BreakingBricksTests-Info.plist"; sourceTree = "<group>"; };
 		3E7E29B719B3BAC900C3DCBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3E7E29B919B3BAC900C3DCBE /* BreakingBricksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BreakingBricksTests.m; sourceTree = "<group>"; };
+		3E9B865919D0C5150068A82A /* BlueSmoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlueSmoke.sks; sourceTree = "<group>"; };
 		3ED6A5E419C509C5003A57EA /* StartScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScene.h; sourceTree = "<group>"; };
 		3ED6A5E519C509C5003A57EA /* StartScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScene.m; sourceTree = "<group>"; };
 		3ED6A5E919C512FF003A57EA /* ALAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAd.h; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		3E21B0DC19BBC47F00ED0EC0 /* Explosions */ = {
 			isa = PBXGroup;
 			children = (
+				3E9B865919D0C5150068A82A /* BlueSmoke.sks */,
 				3E21B0D819BBC46C00ED0EC0 /* RedBrickExplosion.sks */,
 				3E21B0DD19BBE04E00ED0EC0 /* BlueBrickExplosion.sks */,
 				3E21B0D119B62AF300ED0EC0 /* BrickExplosion.sks */,
@@ -382,6 +385,7 @@
 				3E21B0CB19B5325D00ED0EC0 /* gameover.caf in Resources */,
 				3E7E29A719B3BAC900C3DCBE /* Images.xcassets in Resources */,
 				3E7E299D19B3BAC900C3DCBE /* Main.storyboard in Resources */,
+				3E9B865A19D0C5150068A82A /* BlueSmoke.sks in Resources */,
 				3ED6A60919CE523F003A57EA /* brick7p.atlas in Resources */,
 				3E21B0D319B62AF300ED0EC0 /* BrickExplosion.sks in Resources */,
 				3E21B0D019B620E000ED0EC0 /* bricks.atlas in Resources */,

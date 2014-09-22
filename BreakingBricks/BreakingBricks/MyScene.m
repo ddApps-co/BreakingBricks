@@ -285,7 +285,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         self.physicsWorld.contactDelegate = self;
         
         // there bottom edge is on
-        self.bottomEdgeOn = YES; // NO for testing
+        self.bottomEdgeOn = YES; // NO for testing, YES for Production
         
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
@@ -349,6 +349,22 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             [notTheBall.node.userData setValue:@0 forKey:@"Power"];
              SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"blueLight-7p"]];
             [notTheBall.node runAction:changeColor];
+            
+            // blue some effect
+            NSString *smokePath = [[NSBundle mainBundle] pathForResource:@"BlueSmoke" ofType:@"sks"];
+            SKEmitterNode *blueSmoke = [NSKeyedUnarchiver unarchiveObjectWithFile:smokePath];
+            blueSmoke.position = notTheBall.node.position;
+            [self addChild:blueSmoke];
+            
+            // should use a smoke sound
+            [self runAction:self.brickSound];
+            
+            [blueSmoke runAction:[SKAction waitForDuration:1.5] completion:^{
+                [blueSmoke removeFromParent];
+                [self ballSpeedAdjust];
+                if (self.redBallInPlay) [self redBallSpeedAdjust];
+            }];
+            
         } else {
             [self removeBrick:BlueBrick onBody:notTheBall];
         }
