@@ -10,29 +10,41 @@
 	<string>BreakingBricks</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>296DB921-1B8C-415E-85DA-B4C446F221B5</key>
+		<key>4942C2E6F24DA964CF3C2ADD93992BB489AA84A8</key>
 		<string>https://github.com/ddApps-co/BreakingBricks.git</string>
+		<key>DD1C3579A5ED916B5408A90BE421086FBA340BC2</key>
+		<string>https://bitbucket.org/xcodenerd/cs193p-assignment2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>BreakingBricks/BreakingBricks.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>296DB921-1B8C-415E-85DA-B4C446F221B5</key>
+		<key>4942C2E6F24DA964CF3C2ADD93992BB489AA84A8</key>
 		<string>../../..</string>
+		<key>DD1C3579A5ED916B5408A90BE421086FBA340BC2</key>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/ddApps-co/BreakingBricks.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>296DB921-1B8C-415E-85DA-B4C446F221B5</string>
+	<string>4942C2E6F24DA964CF3C2ADD93992BB489AA84A8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>296DB921-1B8C-415E-85DA-B4C446F221B5</string>
+			<string>DD1C3579A5ED916B5408A90BE421086FBA340BC2</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4942C2E6F24DA964CF3C2ADD93992BB489AA84A8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BreakingBricks</string>
 		</dict>

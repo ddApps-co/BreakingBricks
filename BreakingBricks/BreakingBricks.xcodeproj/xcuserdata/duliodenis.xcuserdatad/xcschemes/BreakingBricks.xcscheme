@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3E7E298319B3BAC900C3DCBE"
-               BuildableName = "BreakingBricks.app"
-               BlueprintName = "BreakingBricks"
+               BuildableName = "Bricked.app"
+               BlueprintName = "Bricked"
                ReferencedContainer = "container:BreakingBricks.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3E7E298319B3BAC900C3DCBE"
-            BuildableName = "BreakingBricks.app"
-            BlueprintName = "BreakingBricks"
+            BuildableName = "Bricked.app"
+            BlueprintName = "Bricked"
             ReferencedContainer = "container:BreakingBricks.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3E7E298319B3BAC900C3DCBE"
-            BuildableName = "BreakingBricks.app"
-            BlueprintName = "BreakingBricks"
+            BuildableName = "Bricked.app"
+            BlueprintName = "Bricked"
             ReferencedContainer = "container:BreakingBricks.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,8 +80,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3E7E298319B3BAC900C3DCBE"
-            BuildableName = "BreakingBricks.app"
-            BlueprintName = "BreakingBricks"
+            BuildableName = "Bricked.app"
+            BlueprintName = "Bricked"
             ReferencedContainer = "container:BreakingBricks.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

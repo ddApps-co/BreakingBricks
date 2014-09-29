@@ -14,21 +14,23 @@ static const int BrickPoint = 1;        // Every Brick is a Point
 static const int BrickPointRed = 4;     // Every Red Brick is 4 Points
 static const int GreyBall = 0;          // The Normal Ball
 static const int RedBall = 1;           // The Red Ball
-static const int BrickTier1 = 4;        // Number of Bricks in Level
-static const int BrickTier2 = 8;
-static const int BrickTier3 = 12;
-static const int BrickTier4 = 16;
+static const int BrickTier1 = 8;        // Cumulative Number of Bricks in Tiers
+static const int BrickTier2 = 16;
+static const int BrickTier3 = 24;
+static const int BrickTier4 = 32;
+static const int BrickTier5 = 40;
 
 // Brick Types
 static const int GreyBrick = 0;
 static const int RedBrick = 1;
 static const int BlueBrick = 2;
 static const int YellowBrick = 3;
+static const int GreenBrick = 4;
 // Game Play
 static const int AdvancedGamePlay = 24;      // Advanced Game Play Triggered @Level 3
-static const int AdvancedGamePlayTier1 = 30; // 1 Row Advanced
-static const int AdvancedGamePlayTier2 = 40; // 1 Row Advanced
-static const int AdvancedGamePlayTier3 = 50; // 1 Row Advanced
+//static const int AdvancedGamePlayTier1 = 30;
+//static const int AdvancedGamePlayTier2 = 40;
+//static const int AdvancedGamePlayTier3 = 50;
 
 static const int PointsToGetBall = 10; //Free Ball at this number of Bricks
 
@@ -36,7 +38,8 @@ typedef enum brickColors {
     greyBrick,
     blueBrick,
     yellowBrick,
-    redBrick
+    redBrick,
+    greenBrick
 } BrickColor;
 
 @interface MyScene()
@@ -62,9 +65,10 @@ static const uint32_t greyBrickCategory   = 0x1 << 2;
 static const uint32_t redBrickCategory    = 0x1 << 3;
 static const uint32_t blueBrickCategory   = 0x1 << 4;
 static const uint32_t yellowBrickCategory = 0x1 << 5;
-static const uint32_t paddleCategory      = 0x1 << 6;
-static const uint32_t edgeCategory        = 0x1 << 7;
-static const uint32_t bottomEdgeCategory  = 0x1 << 8;
+static const uint32_t greenBrickCategory  = 0x1 << 6;
+static const uint32_t paddleCategory      = 0x1 << 7;
+static const uint32_t edgeCategory        = 0x1 << 8;
+static const uint32_t bottomEdgeCategory  = 0x1 << 9;
 
 
 @implementation MyScene
@@ -96,7 +100,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         // add the collision bitmask of the edge and the brick - ball passes right thru paddle
         // ball.physicsBody.collisionBitMask = edgeCategory | brickCategory;
     } else {
-        ball = [SKSpriteNode spriteNodeWithImageNamed:@"ballRed-7p"];
+        ball = [SKSpriteNode spriteNodeWithImageNamed:@"ballRed-Small"];
         ball.name = @"redball";
         ball.position = ballPosition;
         
@@ -130,7 +134,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     
     if (self.redBallInPlay) {
         SKSpriteNode *redball = (SKSpriteNode*)[self childNodeWithName:@"redball"];
-        CGVector redVector = CGVectorMake(5, 5);
+        CGVector redVector = CGVectorMake(12, 12);
         [redball.physicsBody applyImpulse:redVector];
     }
 }
@@ -177,7 +181,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 #pragma mark - Add Bricks
 
-- (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
+- (void)addLargeBricks:(CGSize)size atLevel:(NSInteger)brickTier {
     int brickRowPosition, bricksPerRow;
     if (brickTier == BrickTier1) { brickRowPosition= 50;  bricksPerRow = 4; }
     if (brickTier == BrickTier2) { brickRowPosition= 85;  bricksPerRow = 4; }
@@ -239,6 +243,80 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         }
         
         int xPosition = size.width/5 * (i+1);
+        int yPosition = size.height - brickRowPosition;
+        brick.position = CGPointMake(xPosition, yPosition);
+        
+        [self addChild:brick];
+    }
+}
+
+
+- (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
+    int brickRowPosition, bricksPerRow;
+    if (brickTier == BrickTier1) { brickRowPosition= 50;  bricksPerRow = 8; }
+    if (brickTier == BrickTier2) { brickRowPosition= 75;  bricksPerRow = 8; }
+    if (brickTier == BrickTier3) { brickRowPosition= 100; bricksPerRow = 8; }
+    if (brickTier == BrickTier4) { brickRowPosition= 125; bricksPerRow = 8; }
+    if (brickTier == BrickTier5) { brickRowPosition= 150; bricksPerRow = 8; }
+    
+    NSInteger numberOfSpecialBricks = 0;
+    
+    for (int i = 0; i < bricksPerRow; i++) {
+        SKSpriteNode *brick = [SKSpriteNode node];
+        
+        if ([self checkPoints] >= AdvancedGamePlay) {
+            NSArray *brickArray = @[@"greyBrickSmall", @"blueDarkSmall", @"yellowSmallBrick", @"greenBrickSmall", @"redBrickSmall"];
+            uint32_t brickCategoryArray[5] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, greenBrickCategory, redBrickCategory};
+            
+            BrickColor brickTypeNumber ;
+            if (self.level == 3) brickTypeNumber = arc4random_uniform(greyBrick);
+            if (self.level == 4) brickTypeNumber = arc4random_uniform(blueBrick);
+            if (self.level == 5) brickTypeNumber = arc4random_uniform(yellowBrick);
+            if (self.level == 6) brickTypeNumber = arc4random_uniform(greenBrick);
+            if (self.level >= 7) brickTypeNumber = arc4random_uniform(redBrick);
+            
+            // if (self.AGPLevel > 4) self.AGPLevel = 4;
+            
+            // NSUInteger brickTypeNumber = arc4random_uniform(self.AGPLevel);
+            
+            //if (numberOfSpecialBricks < self.specialBricks) {
+            // numberOfSpecialBricks++;
+            
+            // Only 1 Yellow Brick per Level
+            if ((brickTypeNumber == yellowBrick) && (!self.yellowBrick)) {
+                self.yellowBrick = YES;
+            } else if ((brickTypeNumber == yellowBrick) && (self.yellowBrick)) {
+                brickTypeNumber = greyBrick;
+            }
+            //} else brickTypeNumber = 0;
+            
+            NSString *brickType = brickArray[brickTypeNumber];
+            brick = [SKSpriteNode spriteNodeWithImageNamed:brickType];
+            
+            // if a blue brick use the userData to keep a power level
+            if (brickTypeNumber == blueBrick) {
+                brick.userData = [NSMutableDictionary dictionary];
+                [brick.userData setValue:@1 forKey:@"Power"];
+            }
+            
+            // add a static physics body
+            brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
+            brick.physicsBody.dynamic = NO;
+            
+            // add category
+            brick.physicsBody.categoryBitMask = brickCategoryArray[brickTypeNumber];
+            
+        } else {
+            brick = [SKSpriteNode spriteNodeWithImageNamed:@"greyBrickSmall"];
+            // add a static physics body
+            brick.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:brick.frame.size];
+            brick.physicsBody.dynamic = NO;
+            
+            // add category
+            brick.physicsBody.categoryBitMask = greyBrickCategory;
+        }
+        
+        int xPosition = size.width/9 * (i+1);
         int yPosition = size.height - brickRowPosition;
         brick.position = CGPointMake(xPosition, yPosition);
         
@@ -347,7 +425,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         NSNumber *powerLevel = (NSNumber *)[notTheBall.node.userData objectForKey:@"Power"];
         if ([powerLevel isEqual:@1]) {
             [notTheBall.node.userData setValue:@0 forKey:@"Power"];
-             SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"blueLight-7p"]];
+            SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"blueLight-7p"]];
             [notTheBall.node runAction:changeColor];
             
             // blue some effect
@@ -368,6 +446,12 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
         } else {
             [self removeBrick:BlueBrick onBody:notTheBall];
         }
+    }
+    
+    // the green brick explodes and shrinks the paddle
+    if (notTheBall.categoryBitMask == greenBrickCategory) {
+        [self greenPaddleSwitch];
+        [self removeBrick:GreenBrick onBody:notTheBall];
     }
     
     if (notTheBall.categoryBitMask == yellowBrickCategory) {
@@ -400,7 +484,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 
 - (void)removeBrick:(int)brickType onBody:(SKPhysicsBody *)body {
-    NSArray *brickExplosionArray = @[@"BrickExplosion", @"RedBrickExplosion", @"BlueBrickExplosion", @"BrickExplosion"];
+    NSArray *brickExplosionArray = @[@"BrickExplosion", @"RedBrickExplosion", @"BlueBrickExplosion", @"BrickExplosion", @"GreenBrickExplosion"];
     NSString *explosionPath = [[NSBundle mainBundle] pathForResource:brickExplosionArray[brickType] ofType:@"sks"];
     SKEmitterNode *brickExplosion = [NSKeyedUnarchiver unarchiveObjectWithFile:explosionPath];
     brickExplosion.position = body.node.position;
@@ -454,7 +538,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 
 - (void)redBallSpeedAdjust {
     SKNode* ball = [self childNodeWithName: @"redBall"];
-    static int maxSpeed = 150;
+    static int maxSpeed = 350;
     CGVector velocity = ball.physicsBody.velocity;
     float speed = sqrt(velocity.dx * velocity.dx + velocity.dy * velocity.dy);
     if (speed > maxSpeed) {
@@ -494,7 +578,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
             
         SKLabelNode *levelCompleteLabel = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
         levelCompleteLabel.name = @"levelCompletion";
-        levelCompleteLabel.text = [NSString stringWithFormat:@"Level %d Complete", self.level];
+        levelCompleteLabel.text = [NSString stringWithFormat:@"Level %ld Complete", (long)self.level];
         levelCompleteLabel.fontColor = [SKColor whiteColor];
         levelCompleteLabel.fontSize = 24;
         levelCompleteLabel.position = CGPointMake(self.size.width/2, self.size.height);
@@ -532,7 +616,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     // above level 2 get two rows of 4 bricks each
-    else if ((self.level >= 2) && (self.level < 4)) {
+    else if ((self.level >= 2) && (self.level < 3)) {
         self.bricks = BrickTier3;
         self.level++;
         
@@ -547,7 +631,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     }
     
     // level 5 get two rows of 4 bricks each
-    else if (self.level >= 4) {
+    else if (self.level >= 3) {
         self.bricks = BrickTier4;
         self.level++;
         
@@ -598,7 +682,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
 #pragma mark - Draw Line on the Bottom to depict a protective shield
 
 - (void)drawBottomShield {
-    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellowShield-7p"];
+    SKSpriteNode *bottomShield = [SKSpriteNode spriteNodeWithImageNamed:@"yellowShield-Small"];
     bottomShield.name = @"bottomShield";
     bottomShield.position = CGPointMake(self.frame.size.width/2, 150);
     
@@ -618,6 +702,13 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 8;
     [bottomShield removeFromParent];
     
     // stop playing low hum sound
+}
+
+
+- (void)greenPaddleSwitch {
+    SKNode* paddle = [self childNodeWithName: @"paddle"];
+    SKAction* changeColor = [SKAction setTexture:[SKTexture textureWithImageNamed:@"paddleGreen-Small"]];
+    [paddle runAction:changeColor];
 }
 
 @end
