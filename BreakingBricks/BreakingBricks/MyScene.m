@@ -52,6 +52,7 @@ typedef enum brickColors {
 @property (nonatomic) BOOL bottomEdgeOn;    // Removes the bottome edge (Yellow Power On)
 @property (nonatomic) BOOL levelCompletion; // Used as a level completion mode indicator
 @property (nonatomic) BOOL yellowBrick;     // Used to ensure only 1 Yellow per Level
+@property (nonatomic) BOOL saveLevelOn;     // Restart from last highest level - Pro Mode
 @property (nonatomic) NSInteger AGPLevel;   // Advanced Game Play Level
 @property (nonatomic) NSInteger specialBricks; // Track the number of special bricks in a level
 @property (nonatomic) NSInteger numberOfBalls; // Track how many balls player has
@@ -251,6 +252,43 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
 }
 
 
+- (int)brickTierGivenLevel:(int)level {
+    if (level == 1) return BrickTier1;
+    if (level == 2) return BrickTier2;
+    if (level == 3) return BrickTier3;
+    if (level == 4) return BrickTier4;
+    return BrickTier5;
+}
+
+
+- (void)addRowsOfBricks:(int)rows {
+    if (rows == 1) {
+        [self addBricks:self.size atLevel:BrickTier1];
+    }
+    if (rows == 2) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+    }
+    if (rows == 3) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+    }
+    if (rows == 4) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+    }
+    if (rows == 5) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+        [self addBricks:self.size atLevel:BrickTier5];
+    }
+}
+
 - (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
     int brickRowPosition, bricksPerRow;
     if (brickTier == BrickTier1) { brickRowPosition= 50;  bricksPerRow = 8; }
@@ -365,19 +403,30 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         // there bottom edge is on
         self.bottomEdgeOn = YES; // NO for testing, YES for Production
         
+        // Save the Highest Level - IAP of Pro Mode
+        self.saveLevelOn = YES;
+        
+        // read highest level
+        if (self.saveLevelOn) {
+            long savedLevel = [self loadHighLevel];
+            if (!savedLevel) self.level = 1; // the initial time
+            else self.level = [self loadHighLevel];
+        }
+        
         // add the objects to the scene
         [self addBall:size atPosition:CGPointZero ofType:GreyBall];
         [self addPlayer:size];
-        [self addBricks:size atLevel:BrickTier1];
+        [self addRowsOfBricks:(int)self.level];
         [self addBottomEdge:size];
         
         // preload sound effects
+        
         self.paddleSound = [SKAction playSoundFileNamed:@"blip.caf" waitForCompletion:NO];
         self.brickSound = [SKAction playSoundFileNamed:@"brickhit.caf" waitForCompletion:NO];
         
         // initialize level and bricks: Level 1 = 4 Bricks
-        self.level = 1;
-        self.bricks = BrickTier1;
+        // self.level = 1;
+        self.bricks = (int)[self brickTierGivenLevel:(int)self.level];
         
         HUDNode *hud = [HUDNode hudAtPosition:CGPointMake(0, self.frame.size.height-20)
                                       inFrame:self.frame];
@@ -394,7 +443,28 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
 }
 
 
-#pragma mark - Physics Contact Delegate Methods
+#pragma mark - Load and Save Highest Level to enable Pro Mode
+
+- (void)saveHighLevel {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    long value;
+    value = [prefs integerForKey:@"highLevel"];
+    
+    if (self.level > value) {
+        // write the new high level
+        [prefs setInteger:self.level forKey:@"highLevel"];
+        [prefs synchronize];
+    }
+}
+
+
+- (long)loadHighLevel {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    return [prefs integerForKey:@"highLevel"];
+}
+
+
+#pragma mark - Physics Contact Collision Delegate Methods
 
 - (void)didBeginContact:(SKPhysicsContact *)contact {
     // create a placeholder reference for the non-ball object
@@ -475,6 +545,10 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         // Game Over
         HUDNode *hud = (HUDNode*)[self childNodeWithName:@"hud"];
         [hud saveHighScore];
+        
+        if (self.saveLevelOn) {
+            [self saveHighLevel];
+        }
         
         EndScene *gameOver = [[EndScene alloc] initWithSize:self.size andScore:hud.score];
         
