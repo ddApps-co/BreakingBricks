@@ -19,6 +19,7 @@ static const int BrickTier2 = 16;
 static const int BrickTier3 = 24;
 static const int BrickTier4 = 32;
 static const int BrickTier5 = 40;
+static const int BrickTier6 = 48;
 
 // Brick Types
 static const int GreyBrick = 0;
@@ -27,7 +28,7 @@ static const int BlueBrick = 2;
 static const int YellowBrick = 3;
 static const int GreenBrick = 4;
 // Game Play
-static const int AdvancedGamePlay = 24;      // Advanced Game Play Triggered @Level 3
+static const int AdvancedGamePlay = 16;      // Advanced Game Play Triggered @Level 3
 //static const int AdvancedGamePlayTier1 = 30;
 //static const int AdvancedGamePlayTier2 = 40;
 //static const int AdvancedGamePlayTier3 = 50;
@@ -115,7 +116,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         ball.physicsBody.categoryBitMask = ballCategory;
         
         // add the contact category notification with bricks and paddle
-        ball.physicsBody.contactTestBitMask = redBrickCategory | blueBrickCategory | yellowBrickCategory | greyBrickCategory | paddleCategory | bottomEdgeCategory;
+        ball.physicsBody.contactTestBitMask = redBrickCategory | blueBrickCategory | yellowBrickCategory | greyBrickCategory | greenBrickCategory | paddleCategory | bottomEdgeCategory;
         
         self.redBallInPlay = YES;
     }
@@ -252,12 +253,25 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
 }
 
 
-- (int)brickTierGivenLevel:(int)level {
+- (int)brickTierGivenLevel:(int)level {// Pts
     if (level == 1) return BrickTier1;
     if (level == 2) return BrickTier2;
     if (level == 3) return BrickTier3;
     if (level == 4) return BrickTier4;
-    return BrickTier5;
+    if (level == 5) return BrickTier5;
+    return BrickTier6;
+}
+
+
+- (int)pointsGivenLevel:(int)level {
+    if (level == 1) return 0;
+    if (level == 2) return BrickTier1;
+    if (level == 3) return BrickTier2;
+    if (level == 4) return BrickTier3;
+    if (level == 5) return BrickTier4;
+    if (level == 6) return BrickTier5;
+    if (level == 7) return BrickTier6;
+    return ((level-6) * BrickTier6);   // ex: L8 = (2*48)=96, L9=(3*48)=144
 }
 
 
@@ -287,6 +301,14 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         [self addBricks:self.size atLevel:BrickTier4];
         [self addBricks:self.size atLevel:BrickTier5];
     }
+    if (rows >= 6) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+        [self addBricks:self.size atLevel:BrickTier5];
+        [self addBricks:self.size atLevel:BrickTier6];
+    }
 }
 
 - (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
@@ -296,6 +318,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
     if (brickTier == BrickTier3) { brickRowPosition= 100; bricksPerRow = 8; }
     if (brickTier == BrickTier4) { brickRowPosition= 125; bricksPerRow = 8; }
     if (brickTier == BrickTier5) { brickRowPosition= 150; bricksPerRow = 8; }
+    if (brickTier == BrickTier6) { brickRowPosition= 175; bricksPerRow = 8; }
     
     NSInteger numberOfSpecialBricks = 0;
     
@@ -410,7 +433,10 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         if (self.saveLevelOn) {
             long savedLevel = [self loadHighLevel];
             if (!savedLevel) self.level = 1; // the initial time
-            else self.level = [self loadHighLevel];
+            else  {
+                self.level = [self loadHighLevel];
+                [self addPoints:(int)[self pointsGivenLevel:(int)self.level]];
+            }
         }
         
         // add the objects to the scene
@@ -433,7 +459,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         [self addChild:hud];
         [hud loadHighScore];
         
-        self.levelCompletion = NO; // set to not in level completion mode
+        self.levelCompletion = NO; // set to no in level completion mode
         self.yellowBrick = NO;     // set to no Yellow Brick Yet
         self.specialBricks = 0;    // initialize the number of special bricks to zero
         
@@ -444,6 +470,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
 
 
 #pragma mark - Load and Save Highest Level to enable Pro Mode
+// to truly continue need to restore level, score(?), and special bricks
+// score is the number of levels x 48
+// L1(8), L2(
 
 - (void)saveHighLevel {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -507,7 +536,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
             // should use a smoke sound
             [self runAction:self.brickSound];
             
-            [blueSmoke runAction:[SKAction waitForDuration:1.5] completion:^{
+            [blueSmoke runAction:[SKAction waitForDuration:2.5] completion:^{
                 [blueSmoke removeFromParent];
                 [self ballSpeedAdjust];
                 if (self.redBallInPlay) [self redBallSpeedAdjust];
@@ -685,8 +714,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
     if (self.level == 1) {
         self.bricks = BrickTier2;
         self.level++;
-        [self addBricks:self.size atLevel:BrickTier1];
-        [self addBricks:self.size atLevel:BrickTier2];
+        [self addRowsOfBricks:BrickTier2];
     }
     
     // above level 2 get two rows of 4 bricks each
@@ -699,9 +727,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         self.specialBricks++; // increment the number of special bricks
         NSLog(@"special bricks = %d", self.specialBricks);
         
-        [self addBricks:self.size atLevel:BrickTier1];
-        [self addBricks:self.size atLevel:BrickTier2];
-        [self addBricks:self.size atLevel:BrickTier3];
+        [self addRowsOfBricks:BrickTier3];
     }
     
     // level 5 get two rows of 4 bricks each
@@ -714,10 +740,7 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         self.specialBricks++; // increment the number of special bricks
         NSLog(@"special bricks = %d", self.specialBricks);
         
-        [self addBricks:self.size atLevel:BrickTier1];
-        [self addBricks:self.size atLevel:BrickTier2];
-        [self addBricks:self.size atLevel:BrickTier3];
-        [self addBricks:self.size atLevel:BrickTier4];
+        [self addRowsOfBricks:BrickTier4];
     }
     
     // remove the red ball if there is one

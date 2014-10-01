@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BreakingBricks/MyScene.m"
-            timestampString = "433738004.21199"
+            timestampString = "433823578.489655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-addBricks:atLevel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -22,15 +22,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BreakingBricks/MyScene.m"
-            timestampString = "433738004.21199"
+            timestampString = "433823578.489655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-initWithSize:"
             landmarkType = "5">
          </BreakpointContent>
