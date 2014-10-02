@@ -20,6 +20,8 @@ static const int BrickTier3 = 24;
 static const int BrickTier4 = 32;
 static const int BrickTier5 = 40;
 static const int BrickTier6 = 48;
+static const int BrickTier7 = 56;
+static const int BrickTier8 = 64;
 
 // Brick Types
 static const int GreyBrick = 0;
@@ -259,7 +261,9 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
     if (level == 3) return BrickTier3;
     if (level == 4) return BrickTier4;
     if (level == 5) return BrickTier5;
-    return BrickTier6;
+    if (level == 6) return BrickTier6;
+    if (level == 7) return BrickTier7;
+    return BrickTier8;
 }
 
 
@@ -271,28 +275,34 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
     if (level == 5) return BrickTier4;
     if (level == 6) return BrickTier5;
     if (level == 7) return BrickTier6;
-    return ((level-6) * BrickTier6);   // ex: L8 = (2*48)=96, L9=(3*48)=144
+    if (level == 8) return BrickTier7;
+    if (level == 9) return BrickTier8;
+    return ((level-8) * BrickTier8);   // ex: L10 = (2*64)=128, L11=(3*64)=192
 }
 
 
 - (void)addRowsOfBricks:(int)rows {
     if (rows == 1) {
         [self addBricks:self.size atLevel:BrickTier1];
+        self.bricks = BrickTier1;
     }
     if (rows == 2) {
         [self addBricks:self.size atLevel:BrickTier1];
         [self addBricks:self.size atLevel:BrickTier2];
+        self.bricks = BrickTier2;
     }
     if (rows == 3) {
         [self addBricks:self.size atLevel:BrickTier1];
         [self addBricks:self.size atLevel:BrickTier2];
         [self addBricks:self.size atLevel:BrickTier3];
+        self.bricks = BrickTier3;
     }
     if (rows == 4) {
         [self addBricks:self.size atLevel:BrickTier1];
         [self addBricks:self.size atLevel:BrickTier2];
         [self addBricks:self.size atLevel:BrickTier3];
         [self addBricks:self.size atLevel:BrickTier4];
+        self.bricks = BrickTier4;
     }
     if (rows == 5) {
         [self addBricks:self.size atLevel:BrickTier1];
@@ -300,15 +310,39 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
         [self addBricks:self.size atLevel:BrickTier3];
         [self addBricks:self.size atLevel:BrickTier4];
         [self addBricks:self.size atLevel:BrickTier5];
+        self.bricks = BrickTier5;
     }
-    if (rows >= 6) {
+    if (rows == 6) {
         [self addBricks:self.size atLevel:BrickTier1];
         [self addBricks:self.size atLevel:BrickTier2];
         [self addBricks:self.size atLevel:BrickTier3];
         [self addBricks:self.size atLevel:BrickTier4];
         [self addBricks:self.size atLevel:BrickTier5];
         [self addBricks:self.size atLevel:BrickTier6];
+        self.bricks = BrickTier6;
     }
+    if (rows == 7) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+        [self addBricks:self.size atLevel:BrickTier5];
+        [self addBricks:self.size atLevel:BrickTier6];
+        [self addBricks:self.size atLevel:BrickTier7];
+        self.bricks = BrickTier7;
+    }
+    if (rows >= 8) {
+        [self addBricks:self.size atLevel:BrickTier1];
+        [self addBricks:self.size atLevel:BrickTier2];
+        [self addBricks:self.size atLevel:BrickTier3];
+        [self addBricks:self.size atLevel:BrickTier4];
+        [self addBricks:self.size atLevel:BrickTier5];
+        [self addBricks:self.size atLevel:BrickTier6];
+        [self addBricks:self.size atLevel:BrickTier7];
+        [self addBricks:self.size atLevel:BrickTier8];
+        self.bricks = BrickTier8;
+    }
+    self.specialBricks++;
 }
 
 - (void)addBricks:(CGSize)size atLevel:(NSInteger)brickTier {
@@ -319,13 +353,16 @@ static const uint32_t bottomEdgeCategory  = 0x1 << 9;
     if (brickTier == BrickTier4) { brickRowPosition= 125; bricksPerRow = 8; }
     if (brickTier == BrickTier5) { brickRowPosition= 150; bricksPerRow = 8; }
     if (brickTier == BrickTier6) { brickRowPosition= 175; bricksPerRow = 8; }
+    if (brickTier == BrickTier7) { brickRowPosition= 200; bricksPerRow = 8; }
+    if (brickTier == BrickTier8) { brickRowPosition= 225; bricksPerRow = 8; }
     
     NSInteger numberOfSpecialBricks = 0;
     
     for (int i = 0; i < bricksPerRow; i++) {
         SKSpriteNode *brick = [SKSpriteNode node];
         
-        if ([self checkPoints] >= AdvancedGamePlay) {
+        //if ([self checkPoints] >= AdvancedGamePlay) {
+        if (self.specialBricks) {
             NSArray *brickArray = @[@"greyBrickSmall", @"blueDarkSmall", @"yellowSmallBrick", @"greenBrickSmall", @"redBrickSmall"];
             uint32_t brickCategoryArray[5] = {greyBrickCategory, blueBrickCategory, yellowBrickCategory, greenBrickCategory, redBrickCategory};
             
